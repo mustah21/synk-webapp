@@ -1,6 +1,9 @@
+import './button.css';
+
+
 export default function button() {
     return (
-    <button>Create your first event</button>
+    <button className="button_button">Book a game</button>
 
 )
 }

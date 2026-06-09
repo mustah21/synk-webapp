@@ -1,5 +1,76 @@
+@import '../../App.css';
+
 .hero {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6vw;
+  gap: 2rem;
+}
+
+.hero_content-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  max-width: 75rem;
+  max-height: 27rem;
+  z-index: 1;
+  border-radius: 1rem;
+  flex: 1;
+}
+
+
+.hero_text-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  max-width: 30rem;
+  background: hsl(76, 20%, 6%, 0.8);
+  padding: 2rem;
+  flex: 2;
+}
+
+.hero_label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  text-transform: uppercase;
+  color: var(--lime);
+  background: hsl(76, 98%, 60%, 0.08);
+  border: 0.5px solid hsl(76, 98%, 60%, 0.25);
+  border-radius: 9999px;
+  padding: 4px 14px;
+  margin-bottom: 1.5rem;
+  width: fit-content;
+}
+
+.hero_text-container h2 {
+  font-size: clamp(2rem, 2.5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.25rem;
+  background: linear-gradient(135deg,
+      var(--foreground) 0%,
+      var(--foreground) 40%,
+      var(--lime) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero_text-container p {
+  font-size: 1.05rem;
+  color: var(--muted-fg);
+  line-height: 1.7;
+  margin: 0 0 2.5rem;
+  max-width: 24rem;
 }

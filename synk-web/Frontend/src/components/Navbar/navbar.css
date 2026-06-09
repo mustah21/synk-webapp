@@ -1,0 +1,56 @@
+@import '../../App.css';
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 0 6vw;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.5px solid var(--border);
+  background: hsl(76, 20%, 6%, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 100;
+}
+
+.navbar_logo {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--lime);
+}
+
+.navbar_links {
+  display: flex;
+  gap: 2rem;
+}
+
+.navbar_links a {
+  font-size: 13px;
+  color: var(--muted-fg);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.navbar_links a:hover {
+  color: var(--foreground);
+}
+
+.navbar_cta {
+  background: var(--lime);
+  color: #000;
+  border: none;
+  border-radius: 9999px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.navbar_cta:hover {
+  opacity: 0.85;
+}
