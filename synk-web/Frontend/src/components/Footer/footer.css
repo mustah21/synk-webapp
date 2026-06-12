@@ -1,20 +1,17 @@
-/* Footer.css */
 @import '../../App.css';
 
 .footer {
-  width: 70%;
-  margin: 0 auto;
-  border-top: 0.5px solid var(--border);
-  background: var(--background);
+  padding: 0 6vw;
+  background: transparent;
+  
 }
 
 .footer_inner {
-  width: 50%;
-  margin: 0 auto;
-  padding: 1.5rem 0;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-top: 1px solid var(--border);
 }
 
 .footer_logo {
@@ -24,20 +21,39 @@
   color: var(--lime);
 }
 
-.
+.footer_logo-link{
+  text-decoration: none;
+}
 
 .footer_links {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .footer_links a {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted-fg);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.15s ease;
 }
 
 .footer_links a:hover {
+  color: var(--foreground);
+}
+
+.footer_social {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.footer_social a {
+  color: var(--muted-fg);
+  display: flex;
+  align-items: center;
+  transition: color 0.15s ease;
+}
+
+.footer_social a:hover {
   color: var(--lime);
 }

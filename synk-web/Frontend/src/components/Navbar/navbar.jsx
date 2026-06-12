@@ -1,18 +1,16 @@
-// Navbar.jsx
-import './Navbar.css';
+import './navbar.css';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   return (
     <nav className="navbar">
 
-      <span className="navbar_logo">SYNK</span>
+      <Link href='/' className='navbar_Link'><span className="navbar_logo">SYNK</span></Link>
       <div className="navbar_links">
-        <a href="#">Discover</a>
-        <a href="#">Pricing</a>
-        <a href="#">App</a>
+        <Link href="discover">Discover</Link>
+        <button className="navbar_cta">Sign up</button>
       </div>
-      <button className="navbar_cta">Sign up</button>
-    
+
     </nav>
   );
 }

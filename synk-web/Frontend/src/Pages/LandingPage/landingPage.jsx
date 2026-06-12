@@ -5,7 +5,7 @@ import NavBar from '../../components/Navbar/navbar.jsx';
 export default function LandingPage() {
     return (
         <article>
-            {/* <NavBar/> */}
+            <NavBar/>
             <Hero />
             <Footer />
 
