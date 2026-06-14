@@ -30,8 +30,18 @@ public class User {
     @Column(name = "public_id", unique = true, nullable = false, updatable = false)
     private String publicId;
 
-    @Column(name = "name")
-    private String name;
+    @PrePersist
+    public void generatePublicId() {
+        if (this.publicId == null) {
+            this.publicId = UUID.randomUUID().toString();
+        }
+    }
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
@@ -63,12 +73,7 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @PrePersist
-    public void generatePublicId() {
-        if (this.publicId == null) {
-            this.publicId = UUID.randomUUID().toString();
-        }
-    }
+
 
 }
 

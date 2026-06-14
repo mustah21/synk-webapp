@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.List;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @Entity
@@ -23,8 +24,22 @@ public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "game_id")
+    @Column(name = "game_id", unique = true, nullable = false, updatable = false)
     private Long id;
+
+    @Column(name = "public_id", unique = true, nullable = false, updatable = false)
+    private String publicId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id", nullable = false)
+    private User creator;
+
+    @PrePersist
+    public void generatePublicId() {
+        if (this.publicId == null) {
+            this.publicId = UUID.randomUUID().toString();
+        }
+    }
 
     @Column(name = "game_name")
     private String title;
@@ -38,8 +53,15 @@ public class Game {
     @Column(name = "sport_name")
     private String sportName;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "language")
-    private String language;
+    private Language language;
+
+    public enum Language {
+        FINNISH,
+        ENGLISH,
+        SWEDISH,
+    }
 
     @Column(name = "game_description")
     private String gameDescription;

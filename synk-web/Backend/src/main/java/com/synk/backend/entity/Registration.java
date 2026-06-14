@@ -30,7 +30,7 @@ public class Registration {
     @JoinColumn(name = "game_id", nullable = false)
     private Game game;
 
-    private enum Status {
+    public enum Status {
         CONFIRMED,
         WAITLISTED,
         CANCELLED
