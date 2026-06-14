@@ -1,4 +1,4 @@
-package com.synk.backend.dto.gamesDto;
+package com.synk.backend.dto.eventDto;
 
 
 import jakarta.validation.constraints.Future;
@@ -7,10 +7,10 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-public record GameUpdateRequestDto(
+public record EventUpdateRequestDto(
         @NotBlank String title,
         @NotBlank String sportName,
         @NotNull @Future LocalDateTime hostingDate,
         String language,
-        @NotNull String gameDescription
+        @NotNull String eventDescription
 ) {}

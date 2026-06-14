@@ -1,8 +1,8 @@
-package com.synk.backend.dto.gamesDto;
+package com.synk.backend.dto.eventDto;
 
 import java.time.LocalDateTime;
 
-public record GameSummaryDto(
+public record EventSummaryDto(
         String publicId,
         String title,
         String sportName,

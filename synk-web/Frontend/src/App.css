@@ -21,6 +21,11 @@
   --shadow-lime:    0 0 30px hsl(76, 98%, 60%, 0.25);
   --shadow-lime-sm: 0 0 12px hsl(76, 98%, 60%, 0.15);
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   margin: 0;
   padding: 0;

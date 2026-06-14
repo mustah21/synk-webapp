@@ -13,18 +13,18 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name ="games")
+@Table(name ="events")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Game {
+public class Event {
 
-    @OneToMany(mappedBy="game", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="event", cascade = CascadeType.ALL)
     private List<Registration> registrations;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "game_id", unique = true, nullable = false, updatable = false)
+    @Column(name = "event_id", unique = true, nullable = false, updatable = false)
     private Long id;
 
     @Column(name = "public_id", unique = true, nullable = false, updatable = false)
@@ -41,7 +41,7 @@ public class Game {
         }
     }
 
-    @Column(name = "game_name")
+    @Column(name = "event_name")
     private String title;
 
     @Column(name = "hosting_date")
@@ -57,11 +57,11 @@ public class Game {
     public enum Language {
         FINNISH,
         ENGLISH,
-        SWEDISH,
+        SWEDISH
     }
 
-    @Column(name = "game_description")
-    private String gameDescription;
+    @Column(name = "event_description")
+    private String eventDescription;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)

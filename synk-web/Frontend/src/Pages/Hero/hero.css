@@ -21,7 +21,7 @@
     z-index: 2;
     width: 100%;
     max-width: 60rem;
-      pointer-events: auto;
+    pointer-events: auto;
 
   }
 
@@ -97,7 +97,7 @@
     align-items: center;
     justify-content: center;
     width: 12rem;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.5ease;
   }
 
   .button_button {

@@ -5,14 +5,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "registrations", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "game_id"}))
+@Table(name = "registrations", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "event_id"}))
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -27,8 +25,8 @@ public class Registration {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_id", nullable = false)
-    private Game game;
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event;
 
     public enum Status {
         CONFIRMED,

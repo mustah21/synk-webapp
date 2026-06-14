@@ -6,7 +6,7 @@ import com.synk.backend.dto.registrationDto.MyRegistrationDtoRequest;
 import com.synk.backend.entity.Registration;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class, GameMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, EventMapper.class})
 public interface RegistrationMapper {
 
     MyRegistrationDtoRequest toMyRegistrationDto(Registration registration);
