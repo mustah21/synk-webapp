@@ -44,9 +44,6 @@ public class Game {
     @Column(name = "game_name")
     private String title;
 
-    @Column(name = "creator_id")
-    private String creatorId;
-
     @Column(name = "hosting_date")
     private LocalDateTime hostingDate;
 
