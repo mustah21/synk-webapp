@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 public record CreateEventRequestDto(
         @NotBlank String title,
+        @NotBlank Long userId,
         @NotBlank String sportName,
         @NotNull @Future LocalDateTime hostingDate,
         String language,
