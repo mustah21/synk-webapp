@@ -48,6 +48,7 @@ public class GameServiceImpl {
 
     // current logged in user's ID, not the creator's ID from the event itself. get that from the jwt token
     // also there is an issue of long and string when verifying ownership
+    // please fix this
 
     @Transactional
     public EventResponseDto createEvent(CreateEventRequestDto createEventRequestDto) {
