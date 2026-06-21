@@ -17,9 +17,13 @@ spring:
 server:
   port: ${PORT}
 
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_LIFESPAN}
+
+
 #app:
 #  frontend:
 #    url: ${FRONTEND_URL}
 #  backend:
 #    base-url: ${BACKEND_URL}
-#
