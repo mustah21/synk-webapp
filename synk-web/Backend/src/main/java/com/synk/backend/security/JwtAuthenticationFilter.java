@@ -28,17 +28,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
                                     throws ServletException, IOException {
+        System.out.println("Incoming request: " + request.getMethod() + " " + request.getRequestURI());
 
         final String authHeader = request.getHeader("Authorization");
 
-        // No token present, Spring will auto block if the route is blocked
-        if (authHeader == null && authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         final String token = authHeader.substring(7);
-
         if (jwtUtil.validateToken(token) && SecurityContextHolder.getContext().getAuthentication() == null){
 
             String email = jwtUtil.extractEmailFromToken(token);
