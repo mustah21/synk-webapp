@@ -6,7 +6,7 @@ import com.synk.backend.dto.userDto.UserRegisterRequestDto;
 import com.synk.backend.dto.userDto.UserResponseDto;
 import com.synk.backend.security.JwtUtil;
 import com.synk.backend.service.UserServiceImpl;
-import com.synk.backend.util.SecurityUtil;
+import com.synk.backend.util.SecurityUtils;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class UserController {
     private final UserServiceImpl userServiceImpl;
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
-    private final SecurityUtil securityUtils;
+    private final SecurityUtils securityUtils;
 
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDto> login(@Valid @RequestBody UserLoginRequestDto body) {
@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDto> login(@Valid @RequestBody UserRegisterRequestDto body) {
+    public ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserRegisterRequestDto body) {
         return ResponseEntity.ok(userServiceImpl.createUser(body));
     }
 

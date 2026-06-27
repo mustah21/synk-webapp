@@ -12,12 +12,20 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = UserMapper.class)
+
 public interface EventMapper {
 
     @Mapping(target = "creator", source = "creator")
     @Mapping(target = "registeredCount", expression = "java(event.getRegistrations() != null ? event.getRegistrations().size() : 0)")
     EventResponseDto toResponseDto(Event event);  // flows from DB to client
-    Event toCreateEvent(CreateEventRequestDto event, @Context User user);  // flows from client to db (entity)
+
+    @Mapping(target = "creator", source = "user")
+    @Mapping(target = "publicId", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "registrations", ignore = true)
+    @Mapping(target = "eventId", ignore = true)
+    Event toCreateEvent(CreateEventRequestDto event, User user);  // flows from client to db (entity)
 
     EventSummaryDto toSummaryDto(Event event);
 
