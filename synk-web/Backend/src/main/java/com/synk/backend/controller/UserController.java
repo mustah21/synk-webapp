@@ -1,20 +1,16 @@
 package com.synk.backend.controller;
 
-import com.synk.backend.dto.userDto.UserLoginRequestDto;
-import com.synk.backend.dto.userDto.UserLoginResponseDto;
-import com.synk.backend.dto.userDto.UserRegisterRequestDto;
-import com.synk.backend.dto.userDto.UserResponseDto;
+import com.synk.backend.dto.ApiResponse;
+import com.synk.backend.dto.userDto.*;
 import com.synk.backend.security.JwtUtil;
 import com.synk.backend.service.UserServiceImpl;
 import com.synk.backend.util.SecurityUtils;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @AllArgsConstructor
@@ -37,4 +33,18 @@ public class UserController {
         return ResponseEntity.ok(userServiceImpl.createUser(body));
     }
 
+    // Build user update
+    @PutMapping("/update")
+    public ResponseEntity<ApiResponse<UserResponseDto>> updateProfile(
+            @RequestBody UserProfileUpdateDto userDto) {
+
+        UserResponseDto updatedUser = userServiceImpl.updateProfile(userDto);
+
+        return ResponseEntity.ok(
+                ApiResponse.<UserResponseDto>builder()
+                        .status(HttpStatus.OK.value())
+                        .message("Profile updated successfully")
+                        .data(updatedUser)
+                        .build());
+    }
 }

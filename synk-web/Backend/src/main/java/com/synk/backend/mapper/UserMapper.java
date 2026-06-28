@@ -22,6 +22,6 @@ public interface UserMapper {
     // DTO -> Entity: maps incoming update request fields onto a User entity, used when applying a profile update
     User toEntityUserRegister(UserRegisterRequestDto user);
 
-    void updateUserFromDto(UserUpdateRequestDto dto, @MappingTarget User existingUser);
+    void updateUserFromDto(UserProfileUpdateDto dto, @MappingTarget User existingUser);
 
 }

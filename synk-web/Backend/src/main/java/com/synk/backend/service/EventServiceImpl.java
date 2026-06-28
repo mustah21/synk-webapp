@@ -10,9 +10,10 @@ import com.synk.backend.exceptions.ResourceNotFoundException;
 import com.synk.backend.exceptions.UnauthorizedException;
 import com.synk.backend.mapper.EventMapper;
 import com.synk.backend.repository.EventRepository;
-import com.synk.backend.repository.RegistrationRepository;
 import com.synk.backend.repository.UserRepository;
 import com.synk.backend.util.SecurityUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,12 +67,11 @@ public class EventServiceImpl {
         return eventMapper.toResponseDto(event);
     }
 
-    public List<EventResponseDto> getAllEvents() {
+    // gets all events like all of them, pagination as it could be performance issue
+    public Page<EventResponseDto> getAllEventsEver(Pageable pageable) {
         log.info("Get all events successfully.");
-        return eventRepository.findAll()
-                .stream()
-                .map(eventMapper::toResponseDto)
-                .toList();
+        return eventRepository.findAll(pageable)
+                .map(eventMapper::toResponseDto);
     }
 
     public List<EventResponseDto> getEventsByUserId(Long userId) {
@@ -99,6 +99,12 @@ public class EventServiceImpl {
                 .toList();
     }
 
+    public List<EventResponseDto> getAllEvents() {
+        return eventRepository.findByHostingDateAfter(LocalDateTime.now())
+                .stream()
+                .map(eventMapper::toResponseDto)
+                .toList();
+    }
     @Transactional
     public EventResponseDto updateEvent(String eventId, EventUpdateRequestDto eventUpdateRequestDto) {
 

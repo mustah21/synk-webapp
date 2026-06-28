@@ -19,4 +19,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findByHostingDate(LocalDateTime date);
     List<Event> findByCreatorAndHostingDate(User creator, LocalDateTime hostDate);
     List<Event> findEventByCreatedAtExists();
+    List<Event> findByHostingDateAfter(LocalDateTime date);
+
 }

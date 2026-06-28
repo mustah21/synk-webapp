@@ -2,11 +2,13 @@ package com.synk.backend.service;
 
 import com.synk.backend.dto.userDto.*;
 import com.synk.backend.entity.User;
+import com.synk.backend.exceptions.ResourceNotFoundException;
 import com.synk.backend.exceptions.UnauthorizedAccessException;
 import com.synk.backend.mapper.UserMapper;
 import com.synk.backend.repository.EventRepository;
 import com.synk.backend.repository.UserRepository;
 import com.synk.backend.security.JwtUtil;
+import com.synk.backend.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +29,7 @@ public class UserServiceImpl {
     private final UserDetailsService userDetailsService;
 
     private final JwtUtil jwtUtil;
+    private final SecurityUtils securityUtils;
 
     public UserResponseDto createUser(UserRegisterRequestDto userDto) {
         if (userRepository.findByEmail(userDto.email()).isPresent()) {
@@ -53,8 +56,17 @@ public class UserServiceImpl {
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
         String token = jwtUtil.generateToken(userDetails);
 
-
         return new UserLoginResponseDto(token, userMapper.toResponseDto(user));
 
+    }
+
+
+    public UserResponseDto updateProfile(UserProfileUpdateDto userDto) {
+        Long userId = securityUtils.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cannot update: User not found"));
+
+        userMapper.updateUserFromDto(userDto, user);
+        return userMapper.toResponseDto(userRepository.save(user));
     }
 }
