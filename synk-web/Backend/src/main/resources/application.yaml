@@ -26,6 +26,10 @@ spring:
               - profile
 
 
+  logging:
+    level:
+      root: INFO
+      com.synk.backend: DEBUG
 server:
   port: ${PORT}
 

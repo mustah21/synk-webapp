@@ -5,7 +5,6 @@ import com.synk.backend.dto.eventDto.CreateEventRequestDto;
 import com.synk.backend.dto.eventDto.EventResponseDto;
 import com.synk.backend.dto.eventDto.EventUpdateRequestDto;
 import com.synk.backend.entity.Event;
-import com.synk.backend.entity.Registration;
 import com.synk.backend.entity.User;
 import com.synk.backend.exceptions.ResourceNotFoundException;
 import com.synk.backend.exceptions.UnauthorizedException;
@@ -29,12 +28,10 @@ import java.util.Objects;
 @Transactional(readOnly = true)
 public class EventServiceImpl {
 
-
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final EventMapper eventMapper;
     private final SecurityUtils securityUtils;
-    private final RegistrationRepository registrationRepository;
 
     private User findUser(Long userId) {
         return userRepository.findById(userId)
@@ -47,7 +44,7 @@ public class EventServiceImpl {
     }
 
     private void verifyOwnership(Event event, Long userId) {
-        String authenticatedUserId = String.valueOf(securityUtils.getAuthenticatedUserId());
+        Long authenticatedUserId = securityUtils.getAuthenticatedUserId();
         if (!Objects.equals(event.getCreator().getId(), authenticatedUserId)) {
             throw new UnauthorizedException("Access denied. " + userId + " is not the owner of this event.");
         }
@@ -55,24 +52,26 @@ public class EventServiceImpl {
 
     @Transactional
     public EventResponseDto createEvent(CreateEventRequestDto createEventRequestDto, Long userId) {
-        log.info("Finding user with id: {}", userId);
         User user = findUser(userId);
-        log.info("User found: {}", user.getEmail());
-
         Event event = eventMapper.toCreateEvent(createEventRequestDto, user);
-        log.info("Event mapped: {}", event);
 
         Event saved = eventRepository.save(event);
-        log.info("Event saved with id: {}", saved.getPublicId());
-
         log.info("Event created successfully.");
         return eventMapper.toResponseDto(saved);
     }
 
-    public EventResponseDto getEvents(String eventId, Long userId) {
+    public EventResponseDto getEvent(String eventId) {
+        log.info("Getting event by id {}", eventId);
         Event event = findEvent(eventId);
-        verifyOwnership(event, userId);
         return eventMapper.toResponseDto(event);
+    }
+
+    public List<EventResponseDto> getAllEvents() {
+        log.info("Get all events successfully.");
+        return eventRepository.findAll()
+                .stream()
+                .map(eventMapper::toResponseDto)
+                .toList();
     }
 
     public List<EventResponseDto> getEventsByUserId(Long userId) {
@@ -119,24 +118,7 @@ public class EventServiceImpl {
         return event.getTitle() + " has been deleted successfully";
     }
 
-    @Transactional
-    public void joinEvent(String eventId, Long userId) {
-        Event event = findEvent(eventId);
-        User user = findUser(userId);
 
-
-        Registration registration = new Registration();
-        registration.setEvent(event);
-        registration.setUser(user);
-        registration.setStatus(Registration.Status.WAITLISTED);
-        log.info("User {} waitlisted event {}", userId, eventId);
-
-        registrationRepository.save(registration);
-        registration.setStatus(Registration.Status.CONFIRMED);
-        log.info("User {} joined event {}", userId, eventId);
-
-
-    }
 
 
 }
