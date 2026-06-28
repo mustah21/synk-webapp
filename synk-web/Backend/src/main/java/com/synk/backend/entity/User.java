@@ -39,6 +39,9 @@ public class User {
         }
     }
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CommunityMember> communityMember;
+
     @Column(name = "first_name")
     private String firstName;
 

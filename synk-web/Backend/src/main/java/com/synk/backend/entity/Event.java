@@ -34,6 +34,10 @@ public class Event {
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "community_id", nullable = true)
+    private Community community;
+
     @PrePersist
     public void generatePublicId() {
         if (this.publicId == null) {

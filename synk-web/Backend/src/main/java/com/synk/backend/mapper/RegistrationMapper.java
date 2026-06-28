@@ -13,6 +13,4 @@ public interface RegistrationMapper {
 
     MyRegistrationDtoRequest toMyRegistrationDto(Registration registration);
     AttendeeDtoRequest toAttendeeDto(Registration registration);
-    void leaveEvent(Event event, @MappingTarget Registration registration);
-
 }
