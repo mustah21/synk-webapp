@@ -4,7 +4,7 @@ import com.synk.backend.dto.ApiResponse;
 import com.synk.backend.dto.registrationDto.AttendeeDtoRequest;
 import com.synk.backend.dto.registrationDto.MyRegistrationDtoRequest;
 import com.synk.backend.entity.Registration;
-import com.synk.backend.service.RegistrationServiceImpl;
+import com.synk.backend.service.Impl.RegistrationServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

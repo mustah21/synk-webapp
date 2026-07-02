@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "community")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
+@Table(name = "communities", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "creator_id"}))
 public class Community {
 
     @Id
@@ -45,10 +45,13 @@ public class Community {
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     private List<Event> events;
 
+    @Column(name = "display_picture")
+    private String displayPicture;
+
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
     @CreationTimestamp

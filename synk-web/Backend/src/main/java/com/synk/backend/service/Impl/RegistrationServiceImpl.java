@@ -1,4 +1,4 @@
-package com.synk.backend.service;
+package com.synk.backend.service.Impl;
 
 
 import com.synk.backend.dto.registrationDto.AttendeeDtoRequest;
@@ -7,7 +7,6 @@ import com.synk.backend.entity.Event;
 import com.synk.backend.entity.Registration;
 import com.synk.backend.entity.User;
 import com.synk.backend.exceptions.ResourceNotFoundException;
-import com.synk.backend.mapper.EventMapper;
 import com.synk.backend.mapper.RegistrationMapper;
 import com.synk.backend.repository.EventRepository;
 import com.synk.backend.repository.RegistrationRepository;

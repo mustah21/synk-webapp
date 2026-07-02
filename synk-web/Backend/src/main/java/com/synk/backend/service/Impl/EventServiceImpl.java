@@ -1,4 +1,4 @@
-package com.synk.backend.service;
+package com.synk.backend.service.Impl;
 
 
 import com.synk.backend.dto.eventDto.CreateEventRequestDto;

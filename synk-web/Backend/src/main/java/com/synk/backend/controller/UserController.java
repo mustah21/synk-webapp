@@ -3,7 +3,7 @@ package com.synk.backend.controller;
 import com.synk.backend.dto.ApiResponse;
 import com.synk.backend.dto.userDto.*;
 import com.synk.backend.security.JwtUtil;
-import com.synk.backend.service.UserServiceImpl;
+import com.synk.backend.service.Impl.UserServiceImpl;
 import com.synk.backend.util.SecurityUtils;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

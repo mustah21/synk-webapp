@@ -6,7 +6,7 @@ import com.synk.backend.dto.userDto.UserLoginRequestDto;
 import com.synk.backend.dto.userDto.UserLoginResponseDto;
 import com.synk.backend.dto.userDto.UserRegisterRequestDto;
 import com.synk.backend.dto.userDto.UserResponseDto;
-import com.synk.backend.service.UserServiceImpl;
+import com.synk.backend.service.Impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.synk.backend.service;
+package com.synk.backend.service.Impl;
 
 import com.synk.backend.dto.userDto.*;
 import com.synk.backend.entity.User;
@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
 @Service

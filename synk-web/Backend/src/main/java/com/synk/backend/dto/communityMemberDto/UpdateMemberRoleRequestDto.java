@@ -1,8 +1,10 @@
 package com.synk.backend.dto.communityMemberDto;
 
 import com.synk.backend.entity.CommunityMember;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record UpdateMemberRoleRequestDto(
-        @NotNull CommunityMember.Role role
+        @NotNull CommunityMember.Role role,
+        @NotBlank String userPublicId
 ) {}
