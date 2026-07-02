@@ -58,6 +58,7 @@ public class CommunityMemberController {
     public ResponseEntity<ApiResponse<CommunityMemberResponseDto>> getMyMembership(
             @PathVariable String communityPublicId) {
         CommunityMemberResponseDto member = communityMemberService.getMember(communityPublicId);
+
         return ResponseEntity.ok(
                 ApiResponse.<CommunityMemberResponseDto>builder()
                         .status(HttpStatus.OK.value())

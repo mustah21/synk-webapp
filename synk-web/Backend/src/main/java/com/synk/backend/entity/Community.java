@@ -17,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
-@Table(name = "communities", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "creator_id"}))
+@Table(name = "community", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "creator_id"}))
 public class Community {
 
     @Id

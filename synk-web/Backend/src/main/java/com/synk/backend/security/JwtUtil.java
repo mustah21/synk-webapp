@@ -22,6 +22,18 @@ public class JwtUtil {
     private String secret;
     @Value("${JWT_LIFESPAN}")
     private long tokenLifeSpan;
+    @Value("${jwt.refresh_lifespan}")
+    private long refreshTokenLifeSpan;
+
+    public String createRefreshToken(String username) {
+        return Jwts.builder()
+                .subject(username)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + refreshTokenLifeSpan))
+                .signWith(getSecretKey())
+                .compact();
+    }
+
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();

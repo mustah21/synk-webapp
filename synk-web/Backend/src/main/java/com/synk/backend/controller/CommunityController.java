@@ -88,18 +88,18 @@ public class CommunityController {
         return ResponseEntity.ok(
                 ApiResponse.<List<CommunitySummaryDto>>builder()
                         .status(HttpStatus.OK.value())
-                        .message("Communities retrieved successfully")
+                        .message("Communities the user is part of retrieved successfully.")
                         .data(communities)
                         .build());
     }
 
-    @GetMapping("/myCreated")
+    @GetMapping("/mycreated")
     public ResponseEntity<ApiResponse<List<CommunitySummaryDto>>> getCreatedCommunities() {
         List<CommunitySummaryDto> communities = communityService.getCreatedCommunities();
         return ResponseEntity.ok(
                 ApiResponse.<List<CommunitySummaryDto>>builder()
                         .status(HttpStatus.OK.value())
-                        .message("Communities retrieved successfully")
+                        .message(" My communities retrieved successfully")
                         .data(communities)
                         .build());
     }
