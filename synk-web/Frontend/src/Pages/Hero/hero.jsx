@@ -9,18 +9,8 @@ export default function Hero() {
 
         <article className="hero">
 
-            <div style={{
-                position: 'absolute',  // change from fixed to absolute
-                top: '10%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '200vmin',
-                height: '60vmin',
-                zIndex: -2,
-                pointerEvents: 'none'
-            }}>
-
-                <div style={{ width: '100%', height: '600px', position: 'relative' }}>
+            <div className="ferrofluid-container">
+                <div className="ferrofluid-inner">
                     <Ferrofluid
                         colors={["#ffffff", "#ffffff", "#ffffff"]}
                         speed={0.5}
@@ -38,20 +28,6 @@ export default function Hero() {
                         mouseRadius={0.35}
                     />
                 </div>
-
-                {/* <Cubes
-                    gridSize={13}
-                    maxAngle={45}
-                    radius={5}
-                    borderStyle="3px dashed #B497CF"
-                    faceColor="#1a1a2e"
-                    rippleColor="#f3f3f3"
-                    rippleSpeed={3}
-                    autoAnimate
-                    rippleOnClick /> */}
-
-
-
             </div>
 
             <div className="hero_content-container">

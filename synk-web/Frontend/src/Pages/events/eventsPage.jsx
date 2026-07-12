@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../api/axios';
 import './EventsPage.css';
 
-const API_BASE = 'http://localhost:3000';
 
 function EventsPage() {
   const [events, setEvents] = useState([]);
@@ -10,7 +9,7 @@ function EventsPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`${API_BASE}/api/v1/event/events`)
+    api.get('/api/v1/event/events')
       .then(res => {
         setEvents(res.data.data);
         setLoading(false);

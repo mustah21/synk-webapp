@@ -19,6 +19,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+
+
 
 @Configuration
 @EnableWebSecurity
@@ -43,6 +46,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
+                        .failureHandler(oAuth2FailureHandler())
                         .successHandler(oAuth2SuccessHandler))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -63,5 +67,13 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
+    @Bean
+    public AuthenticationFailureHandler oAuth2FailureHandler() {
+        return (request, response, exception) -> {
+            System.out.println("OAuth2 failure: " + exception.getMessage());
+            exception.printStackTrace();
+            response.sendRedirect("/login?error");
+        };
+    }
 
 }

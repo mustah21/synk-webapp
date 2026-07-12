@@ -29,6 +29,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final UserRepository userRepository;
     private final UserDetailsService userDetailsService;
     private final OAuth2AuthorizedClientService authorizedClientService;
+    private final String FrontendUrl = "http://localhost:4000";
 
 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -84,9 +85,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String token = jwtUtil.createToken(Map.of("userId", user.getId()), userDetails.getUsername());
 
 
-
-        // Redirect to frontend with the token as a query parameter
-//        String redirectUrl = frontendUrl + "/oauth2/redirect?token=" + token;
+//         Redirect to frontend with the token as a query parameter
+//        String redirectUrl = FrontendUrl + "/oauth2/redirect?token=" + token;
 //        getRedirectStrategy().sendRedirect(request, response, redirectUrl);
 
     }

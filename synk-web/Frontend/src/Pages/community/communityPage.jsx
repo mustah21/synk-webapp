@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../api/axios';
 import './communityPage.css';
 
-const API_BASE = 'http://localhost:3000';
 
 function CommunitiesPage() {
   const [communities, setCommunities] = useState([]);
@@ -10,7 +9,7 @@ function CommunitiesPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`${API_BASE}/api/v1/community`)
+    api.get('/api/v1/community')
       .then(res => {
         setCommunities(res.data.data.content);
         setLoading(false);
