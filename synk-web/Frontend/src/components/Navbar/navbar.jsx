@@ -8,8 +8,7 @@ export default function Navbar() {
       <Link href='/' className='navbar_Link'><span className="navbar_logo">SYNK</span></Link>
       <div className="navbar_links">
         <Link href="discover">Discover</Link>
-        <button className="navbar_cta">Sign up</button>
-      </div>
+        <Link to='/auth'><button className="navbar_cta">Sign in</button></Link>      </div>
 
     </nav>
   );

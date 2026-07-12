@@ -1,0 +1,164 @@
+.events-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.events-header {
+  margin-bottom: 2.5rem;
+}
+
+.events-header h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0 0 0.375rem;
+}
+
+.events-header p {
+  color: var(--muted-fg);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.event-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+  border-color: var(--lime);
+  box-shadow: var(--shadow-lime-sm);
+}
+
+.event-card-sport {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--lime);
+  margin-bottom: 0.6rem;
+}
+
+.event-card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 0.5rem;
+}
+
+.event-card-description {
+  font-size: 0.85rem;
+  color: var(--muted-fg);
+  margin: 0 0 1.25rem;
+  line-height: 1.55;
+}
+
+.event-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--muted-fg);
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+}
+
+.event-card-count {
+  font-weight: 600;
+  color: var(--lime);
+}
+
+.events-status {
+  text-align: center;
+  padding: 4rem;
+  color: var(--muted-fg);
+}
+
+.events-error {
+  color: hsl(0, 80%, 60%);
+}
+
+.event-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event-modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 2rem;
+  width: 420px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--muted-fg);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: var(--foreground);
+}
+
+.modal-sport {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--lime);
+}
+
+.modal-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.modal-description {
+  font-size: 0.88rem;
+  color: var(--muted-fg);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.modal-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--muted-fg);
+  border-top: 1px solid var(--border);
+  padding-top: 0.875rem;
+}
+
+.modal-creator {
+  font-size: 0.82rem;
+  color: var(--muted-fg);
+}

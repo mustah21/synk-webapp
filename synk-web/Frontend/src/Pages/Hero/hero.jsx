@@ -1,5 +1,8 @@
 import Cubes from '../../components/Cubes/Cubes.jsx'
+import Ferrofluid from '../../components/Ferrofluid/ferrofluid.jsx';
+
 import './hero.css';
+
 
 export default function Hero() {
     return (
@@ -16,7 +19,27 @@ export default function Hero() {
                 zIndex: -2,
                 pointerEvents: 'none'
             }}>
-                <Cubes
+
+                <div style={{ width: '100%', height: '600px', position: 'relative' }}>
+                    <Ferrofluid
+                        colors={["#ffffff", "#ffffff", "#ffffff"]}
+                        speed={0.5}
+                        scale={1.6}
+                        turbulence={1}
+                        fluidity={0.18}
+                        rimWidth={0.2}
+                        sharpness={5}
+                        shimmer={1.5}
+                        glow={2}
+                        flowDirection="down"
+                        opacity={1}
+                        mouseInteraction
+                        mouseStrength={1}
+                        mouseRadius={0.35}
+                    />
+                </div>
+
+                {/* <Cubes
                     gridSize={13}
                     maxAngle={45}
                     radius={5}
@@ -25,7 +48,7 @@ export default function Hero() {
                     rippleColor="#f3f3f3"
                     rippleSpeed={3}
                     autoAnimate
-                    rippleOnClick />
+                    rippleOnClick /> */}
 
 
 
