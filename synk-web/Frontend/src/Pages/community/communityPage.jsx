@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import './communityPage.css';
+import { useNavigate } from 'react-router-dom';
 
 
 function CommunitiesPage() {
+  const navigate = useNavigate();
   const [communities, setCommunities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,11 +33,11 @@ function CommunitiesPage() {
       </div>
 
       {communities.length === 0 ? (
-        <div className="communities-status">No communities yet. Be the first to create one.</div>
+        <div key={communities.publicId} className="communities-status">No communities yet. Be the first to create one.</div>
       ) : (
         <div className="communities-grid">
           {communities.map(community => (
-            <div key={community.publicId} className="community-card">
+            <div key={community.publicId} className="community-card" onClick={() => navigate(`/communities/${community.publicId}`)}>
               <div className="community-card-name">{community.name}</div>
               <p className="community-card-description">{community.description}</p>
               <div className="community-card-footer">

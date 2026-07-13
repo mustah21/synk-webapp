@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import './EventsPage.css';
+import Spinner from '../../components/Spinner/Spinner';
 
 
 function EventsPage() {
+
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,7 +24,7 @@ function EventsPage() {
       });
   }, []);
 
-  if (loading) return <div className="events-status">Loading events...</div>;
+  if (loading) return <Spinner fullPage label="Loading events..." />;
   if (error) return <div className="events-status events-error">{error}</div>;
 
   return (
@@ -35,7 +39,8 @@ function EventsPage() {
       ) : (
         <div className="events-grid">
           {events.map(event => (
-            <div key={event.publicId} className="event-card">
+            <div key={event.publicId} className="event-card" onClick={() => navigate(`/events/${event.publicId}`)}>
+
               <div className="event-card-sport">{event.sportName}</div>
               <h2 className="event-card-title">{event.title}</h2>
               <p className="event-card-description">{event.eventDescription}</p>
@@ -47,6 +52,7 @@ function EventsPage() {
                 </span>
                 <span className="event-card-count">{event.registeredCount} joined</span>
               </div>
+
             </div>
           ))}
         </div>
