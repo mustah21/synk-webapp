@@ -86,8 +86,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 
 //         Redirect to frontend with the token as a query parameter
-//        String redirectUrl = FrontendUrl + "/oauth2/redirect?token=" + token;
-//        getRedirectStrategy().sendRedirect(request, response, redirectUrl);
+        String redirectUrl = FrontendUrl + "/oauth2/redirect?token=" + token;
+        getRedirectStrategy().sendRedirect(request, response, redirectUrl);
 
     }
 }

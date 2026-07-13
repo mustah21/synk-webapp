@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Main {
 
 	public static void main(String[] args) {
+		System.out.println("google client id: " + System.getenv("GOOGLE_CLIENT_ID"));
 		SpringApplication.run(Main.class, args);
 	}
 
