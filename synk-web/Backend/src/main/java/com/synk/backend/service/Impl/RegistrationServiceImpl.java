@@ -60,6 +60,7 @@ public class RegistrationServiceImpl {
         registration.setEvent(event);
         registration.setUser(user);
 
+
         registration.setStatus(Registration.Status.WAITLISTED);
         log.info("User {} waitlisted event {}", userId, eventId);
         System.out.println("User waitlisted for this event");

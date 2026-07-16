@@ -82,7 +82,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // Generate JWT token for the authenticated user
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-        String token = jwtUtil.createToken(Map.of("userId", user.getId()), userDetails.getUsername());
+        String token = jwtUtil.createToken( Map.of(
+                "userId", user.getId(),
+                "publicId", user.getPublicId().toString()
+        ), userDetails.getUsername());
 
 
 //         Redirect to frontend with the token as a query parameter

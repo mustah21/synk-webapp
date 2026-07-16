@@ -53,7 +53,7 @@ public class UserServiceImpl {
             throw new BadCredentialsException("Invalid email or password");
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-        String token = jwtUtil.generateToken(userDetails);
+        String token = jwtUtil.generateToken(userDetails, user.getId(), user.getPublicId());
 
         return new UserLoginResponseDto(token, userMapper.toResponseDto(user));
 
