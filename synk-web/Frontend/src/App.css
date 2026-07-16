@@ -17,6 +17,9 @@
   --muted-fg:    hsl(76, 10%, 55%);
   --border:      hsl(76, 20%, 16%);
   --accent:      hsl(76, 90%, 36%);
+  --danger: hsl(0, 70%, 55%);
+
+
 
   --shadow-lime:    0 0 30px hsl(76, 98%, 60%, 0.25);
   --shadow-lime-sm: 0 0 12px hsl(76, 98%, 60%, 0.15);

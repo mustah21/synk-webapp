@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 import api from '../../api/axios';
 import './eventDetailPage.css';
 import Spinner from '../../components/Spinner/Spinner';
@@ -16,6 +17,28 @@ function EventDetailPage() {
   const [error, setError] = useState(null);
   const [joining, setJoining] = useState(false);
   const [joined, setJoined] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  const [leaveError, setLeaveError] = useState(null);
+
+  const token = localStorage.getItem('token');
+  const currentUserPublicId = token ? jwtDecode(token).publicId : null;
+  const isCreator = event && currentUserPublicId === event.creator?.publicId;
+
+
+  const handleLeaveEvent = async () => {
+    if (leaving) return;
+    setLeaving(true);
+    setLeaveError(null);
+
+    try {
+      await api.delete(`/api/v1/registration/leave/${publicId}`);
+      setJoined(false);
+    } catch (err) {
+      setLeaveError(err.response?.data?.message || 'Failed to leave. Please try again.');
+    } finally {
+      setLeaving(false);
+    }
+  };
 
 
   useEffect(() => {
@@ -23,6 +46,13 @@ function EventDetailPage() {
       .then(res => setEvent(res.data.data))
       .catch(err => setError(err.response?.data?.message || 'Failed to load event'))
       .finally(() => setLoading(false));
+
+    api.get('/api/v1/registration/my')
+      .then(res => {
+        const alreadyJoined = res.data.data.some(r => r.event.publicId === publicId);
+        setJoined(alreadyJoined);
+      })
+      .catch(err => console.error(err));
   }, [publicId]);
 
   if (loading) return <Spinner fullPage label="Loading events..." />;
@@ -75,22 +105,50 @@ function EventDetailPage() {
           <p className="event-detail-description">{event.eventDescription}</p>
 
           <div className="event-detail-actions">
-            <button
-              className={`event-detail-join-btn ${joined ? "joined" : ""}`}
-              onClick={handleJoinEvent}
-              disabled={joining || joined}
-            >
-              {joining ? (
-                <>
-                  <span className="spinner"></span>
-                  Joining...
-                </>
-              ) : joined ? (
-                <>✓ Joined</>
-              ) : (
-                "Join event"
-              )}
-            </button>          </div>
+            {isCreator && (
+              <button
+                className="event-detail-edit-btn"
+                onClick={() => navigate(`/event/${publicId}/edit`)}
+              >
+                Edit event
+              </button>
+            )}
+
+            {joined ? (
+              <button
+                className="event-detail-leave-btn"
+                onClick={handleLeaveEvent}
+                disabled={leaving}
+              >
+                {leaving ? (
+                  <>
+                    <span className="spinner"></span>
+                    Leaving...
+                  </>
+                ) : (
+                  "Leave event"
+                )}
+              </button>
+            ) : (
+              <button
+                className="event-detail-join-btn"
+                onClick={handleJoinEvent}
+                disabled={joining}
+              >
+                {joining ? (
+                  <>
+                    <span className="spinner"></span>
+                    Joining...
+                  </>
+                ) : (
+                  "Join event"
+                )}
+              </button>
+            )}
+
+            {leaveError && <p className="join-error">{leaveError}</p>}
+          </div>
+
         </div>
       </div>
     </div>

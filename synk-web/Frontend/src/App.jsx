@@ -7,6 +7,7 @@ import OAuthRedirect from './pages/oauth2/oauth2RedirectPage';
 import EventDetailPage from './Pages/events/eventDetailPage';
 import CommunityDetailPage from './Pages/community/communityDetailPage';
 import CreateEventPage from './Pages/createEventPage/createEventPage';
+import EditEventPage from './Pages/editEventPage/editEventPage';
 
 import './App.css'
 
@@ -23,7 +24,7 @@ function App() {
         <Route path='/event/:publicId' element={<EventDetailPage />} />
         <Route path='/communities/:publicId' element={<CommunityDetailPage />} />
         <Route path="/event/create" element={<CreateEventPage />} />
-
+        <Route path="/event/:publicId/edit" element={<EditEventPage />} />
       </Routes>
     </>
   )
