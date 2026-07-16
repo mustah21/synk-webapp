@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import './communityPage.css';
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../../components/Spinner/Spinner';
 
 
 function CommunitiesPage() {
@@ -22,7 +23,7 @@ function CommunitiesPage() {
       });
   }, []);
 
-  if (loading) return <div className="communities-status">Loading communities...</div>;
+  if (loading) return <Spinner fullPage label="Loading community..." />;
   if (error) return <div className="communities-status communities-error">{error}</div>;
 
   return (
@@ -44,7 +45,7 @@ function CommunitiesPage() {
                 <span className="community-card-members">
                   {community.memberCount} {community.memberCount === 1 ? 'member' : 'members'}
                 </span>
-              
+
               </div>
             </div>
           ))}

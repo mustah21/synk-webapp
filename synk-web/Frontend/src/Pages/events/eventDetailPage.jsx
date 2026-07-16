@@ -14,6 +14,9 @@ function EventDetailPage() {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [joining, setJoining] = useState(false);
+  const [joined, setJoined] = useState(false);
+
 
   useEffect(() => {
     api.get(`/api/v1/event/${publicId}`)
@@ -26,6 +29,21 @@ function EventDetailPage() {
   if (error) return <p>{error}</p>;
   if (!event) return null;
 
+
+  const handleJoinEvent = async () => {
+    if (joining || joined) return;
+
+    setJoining(true);
+
+    try {
+      await api.post(`/api/v1/registration/join/${publicId}`);
+      setJoined(true);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setJoining(false);
+    }
+  };
 
   return (
     <div className="event-detail-page">
@@ -57,8 +75,22 @@ function EventDetailPage() {
           <p className="event-detail-description">{event.eventDescription}</p>
 
           <div className="event-detail-actions">
-            <button className="event-detail-join-btn">Join event</button>
-          </div>
+            <button
+              className={`event-detail-join-btn ${joined ? "joined" : ""}`}
+              onClick={handleJoinEvent}
+              disabled={joining || joined}
+            >
+              {joining ? (
+                <>
+                  <span className="spinner"></span>
+                  Joining...
+                </>
+              ) : joined ? (
+                <>✓ Joined</>
+              ) : (
+                "Join event"
+              )}
+            </button>          </div>
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ function CommunityDetailPage() {
       .finally(() => setLoading(false));
   }, [publicId]);
 
-  if (loading) return <Spinner fullPage label="Loading community..." />;
+  if (loading) return <Spinner fullPage label="Loading details of the community..." />;
   if (error) return <p className="community-detail-error">{error}</p>;
   if (!community) return null;
 
