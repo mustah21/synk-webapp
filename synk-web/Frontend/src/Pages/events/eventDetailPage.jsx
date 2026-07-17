@@ -5,11 +5,12 @@ import { jwtDecode } from 'jwt-decode';
 import api from '../../api/axios';
 import './eventDetailPage.css';
 import Spinner from '../../components/Spinner/Spinner';
-
+import { useAuth } from '../../context/authContext';
 
 
 function EventDetailPage() {
 
+  const { isAuth, token } = useAuth();
   const navigate = useNavigate();
   const { publicId } = useParams();
   const [event, setEvent] = useState(null);
@@ -23,7 +24,6 @@ function EventDetailPage() {
   const [attendees, setAttendees] = useState([]);
   const [attendeesError, setAttendeesError] = useState(null);
 
-  const token = localStorage.getItem('token');
   const currentUserPublicId = token ? jwtDecode(token).publicId : null;
   const isCreator = event && currentUserPublicId === event.creator?.publicId;
 
@@ -58,6 +58,8 @@ function EventDetailPage() {
   const handleJoinEvent = async () => {
     if (joining || joined) return;
     setJoining(true);
+    setJoinError(null);
+
     try {
       await api.post(`/api/v1/registration/join/${publicId}`);
       setJoined(true);
@@ -95,14 +97,13 @@ function EventDetailPage() {
   useEffect(() => {
     getPublicEvents();
 
-    const token = localStorage.getItem('token');
-    if (token) {
+    if (isAuth) {
       getMyRegistrations();
     }
   }, [publicId]);
 
   useEffect(() => {
-     fetchAttendees();
+    fetchAttendees();
   }, [publicId])
 
 
@@ -182,7 +183,7 @@ function EventDetailPage() {
                 )}
               </button>
             )}
-
+            {joinError && <p className="join-error">{joinError}</p>}
             {leaveError && <p className="join-error">{leaveError}</p>}
           </div>
           {attendees.length > 0 && (
