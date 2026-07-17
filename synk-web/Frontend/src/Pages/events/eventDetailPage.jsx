@@ -17,12 +17,26 @@ function EventDetailPage() {
   const [error, setError] = useState(null);
   const [joining, setJoining] = useState(false);
   const [joined, setJoined] = useState(false);
+  const [joinError, setJoinError] = useState(null);
   const [leaving, setLeaving] = useState(false);
   const [leaveError, setLeaveError] = useState(null);
+  const [attendees, setAttendees] = useState([]);
+  const [attendeesError, setAttendeesError] = useState(null);
 
   const token = localStorage.getItem('token');
   const currentUserPublicId = token ? jwtDecode(token).publicId : null;
   const isCreator = event && currentUserPublicId === event.creator?.publicId;
+
+  const fetchAttendees = async () => {
+    try {
+      const res = await api.get(`/api/v1/registration/event/${publicId}/attendees`);
+      setAttendees(res.data.data);
+    } catch (err) {
+      setAttendeesError(
+        err.response?.data?.message || "Failed to load attendees."
+      );
+    }
+  };
 
 
   const handleLeaveEvent = async () => {
@@ -33,6 +47,7 @@ function EventDetailPage() {
     try {
       await api.delete(`/api/v1/registration/leave/${publicId}`);
       setJoined(false);
+      fetchAttendees();
     } catch (err) {
       setLeaveError(err.response?.data?.message || 'Failed to leave. Please try again.');
     } finally {
@@ -40,40 +55,62 @@ function EventDetailPage() {
     }
   };
 
+  const handleJoinEvent = async () => {
+    if (joining || joined) return;
+    setJoining(true);
+    try {
+      await api.post(`/api/v1/registration/join/${publicId}`);
+      setJoined(true);
+      fetchAttendees();
+    } catch (err) {
+      setJoinError(err.response?.data?.message || 'Failed to join. Please try again.');
+    } finally {
+      setJoining(false);
+    }
+  };
+
+  const getPublicEvents = async () => {
+    try {
+      const res = await api.get(`/api/v1/event/${publicId}`);
+      setEvent(res.data.data);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to load event");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getMyRegistrations = async () => {
+    try {
+      const res = await api.get("/api/v1/registration/my");
+      const alreadyJoined = res.data.data.some(
+        r => r.event.publicId === publicId
+      );
+      setJoined(alreadyJoined);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
-    api.get(`/api/v1/event/${publicId}`)
-      .then(res => setEvent(res.data.data))
-      .catch(err => setError(err.response?.data?.message || 'Failed to load event'))
-      .finally(() => setLoading(false));
+    getPublicEvents();
 
-    api.get('/api/v1/registration/my')
-      .then(res => {
-        const alreadyJoined = res.data.data.some(r => r.event.publicId === publicId);
-        setJoined(alreadyJoined);
-      })
-      .catch(err => console.error(err));
+    const token = localStorage.getItem('token');
+    if (token) {
+      getMyRegistrations();
+    }
   }, [publicId]);
+
+  useEffect(() => {
+     fetchAttendees();
+  }, [publicId])
+
 
   if (loading) return <Spinner fullPage label="Loading events..." />;
   if (error) return <p>{error}</p>;
   if (!event) return null;
 
 
-  const handleJoinEvent = async () => {
-    if (joining || joined) return;
-
-    setJoining(true);
-
-    try {
-      await api.post(`/api/v1/registration/join/${publicId}`);
-      setJoined(true);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setJoining(false);
-    }
-  };
 
   return (
     <div className="event-detail-page">
@@ -148,7 +185,19 @@ function EventDetailPage() {
 
             {leaveError && <p className="join-error">{leaveError}</p>}
           </div>
-
+          {attendees.length > 0 && (
+            <div className="event-detail-attendees">
+              <h2 className="event-detail-attendees-title">Attendees ({attendees.length})</h2>
+              <ul className="event-detail-attendees-list">
+                {attendees.map(a => (
+                  <li key={a.user.publicId} className="event-detail-attendee">
+                    <span>{a.user.firstName}</span>
+                    <span className="event-detail-attendee-status">{a.status}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>

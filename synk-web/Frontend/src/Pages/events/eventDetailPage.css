@@ -192,3 +192,42 @@
 .event-detail-join-btn.joined {
   background: #22c55e;
 }
+
+.event-detail-attendees {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.25rem;
+}
+
+.event-detail-attendees-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0 0 0.75rem;
+}
+
+.event-detail-attendees-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.event-detail-attendee {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--foreground);
+  background: var(--muted);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+.event-detail-attendee-status {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lime);
+}
