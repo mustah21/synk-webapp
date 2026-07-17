@@ -3,11 +3,13 @@ import LandingPage from './Pages/LandingPage/landingPage';
 import EventsPage from './Pages/events/eventsPage';
 import CommunitiesPage from './Pages/community/communityPage';
 import AuthPage from './Pages/auth/authPage';
-import OAuthRedirect from './pages/oauth2/oauth2RedirectPage';
+import OAuthRedirect from './Pages/oauth2/oauth2RedirectPage';
 import EventDetailPage from './Pages/events/eventDetailPage';
 import CommunityDetailPage from './Pages/community/communityDetailPage';
-import CreateEventPage from './Pages/createEventPage/createEventPage';
-import EditEventPage from './Pages/editEventPage/editEventPage';
+import CreateEventPage from './Pages/events/createEventPage/createEventPage';
+import EditEventPage from './Pages/events/editEventPage/editEventPage';
+import CreateCommunityPage from './Pages/community/createCommunityPage/createCommunityPage';
+import EditCommunityPage from './Pages/community/editCommunityPage/editCommunityPage';
 
 import './App.css'
 
@@ -25,6 +27,8 @@ function App() {
         <Route path='/communities/:publicId' element={<CommunityDetailPage />} />
         <Route path="/event/create" element={<CreateEventPage />} />
         <Route path="/event/:publicId/edit" element={<EditEventPage />} />
+        <Route path="/communities/create" element={<CreateCommunityPage />} />
+        <Route path="/communities/:publicId/edit" element={<EditCommunityPage />} />
       </Routes>
     </>
   )

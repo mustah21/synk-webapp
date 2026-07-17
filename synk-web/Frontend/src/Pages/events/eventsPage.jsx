@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import './eventsPage.css';
 import Spinner from '../../components/Spinner/Spinner';
-import CreateEventPage from '../createEventPage/createEventPage';
+
 
 function EventsPage() {
 

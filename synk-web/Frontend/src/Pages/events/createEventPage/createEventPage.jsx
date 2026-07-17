@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import api from '../../api/axios';
+import api from '../../../api/axios';
 import './CreateEventPage.css';
 
 const LANGUAGES = ['FINNISH', 'ENGLISH', 'SWEDISH'];

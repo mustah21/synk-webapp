@@ -27,10 +27,17 @@ function CommunitiesPage() {
   if (error) return <div className="communities-status communities-error">{error}</div>;
 
   return (
+
     <div className="communities-page">
+
       <div className="communities-header">
-        <h1>Communities</h1>
-        <p>Find your people</p>
+        <div>
+          <h1>Communities</h1>
+          <p>Find your people</p>
+        </div>
+        <button className="communities-create-btn" onClick={() => navigate('/communities/create')}>
+          Create Community
+        </button>
       </div>
 
       {communities.length === 0 ? (

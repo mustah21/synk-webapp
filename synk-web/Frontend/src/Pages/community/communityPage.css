@@ -5,7 +5,10 @@
 }
 
 .communities-header {
-  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
 }
 
 .communities-header h1 {
@@ -81,4 +84,21 @@
 
 .communities-error {
   color: hsl(0, 80%, 60%);
+}
+
+.communities-create-btn {
+  background: var(--lime);
+  color: var(--background);
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+}
+
+.communities-create-btn:hover {
+  opacity: 0.85;
 }

@@ -11,6 +11,19 @@
   margin-bottom: 1rem;
 }
 
+.events-header h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0 0 0.375rem;
+}
+
+.events-header p {
+  color: var(--muted-fg);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
 .events-create-btn {
   background: var(--lime);
   color: var(--background);
@@ -29,18 +42,6 @@
   background-color: #d6d1c3;
 }
 
-.events-header h1 {
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: var(--foreground);
-  margin: 0 0 0.375rem;
-}
-
-.events-header p {
-  color: var(--muted-fg);
-  margin: 0;
-  font-size: 0.95rem;
-}
 
 .events-grid {
   display: grid;
@@ -111,111 +112,4 @@
 
 .events-error {
   color: hsl(0, 80%, 60%);
-}
-
-.event-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.event-modal {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 2rem;
-  width: 420px;
-  max-width: 90vw;
-  display: flex;
-  flex-direction: column;
-  gap: 0.875rem;
-  position: relative;
-}
-
-.modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  color: var(--muted-fg);
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.modal-close:hover {
-  color: var(--foreground);
-}
-
-.modal-sport {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--lime);
-}
-
-.modal-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--foreground);
-  margin: 0;
-}
-
-.modal-description {
-  font-size: 0.88rem;
-  color: var(--muted-fg);
-  line-height: 1.6;
-  margin: 0;
-}
-
-.modal-meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: var(--muted-fg);
-  border-top: 1px solid var(--border);
-  padding-top: 0.875rem;
-}
-
-.modal-creator {
-  font-size: 0.82rem;
-  color: var(--muted-fg);
-}
-
-.event-detail-leave-btn {
-  background: var(--card);
-  border: 1px solid var(--border);
-  color: var(--muted-fg);
-  border-radius: 5px;
-  padding: 0.65rem 1.25rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  gap: 0.5rem;
-  transition: border-color 0.2s ease, color 0.2s ease;
-}
-
-.event-detail-leave-btn:hover {
-  border-color: var(--danger);
-  color: var(--danger);
-}
-
-.event-detail-leave-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.join-error {
-  font-size: 0.8rem;
-  color: hsl(0, 80%, 60%);
-  margin-top: 0.5rem;
 }

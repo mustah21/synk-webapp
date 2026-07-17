@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import api from '../../api/axios';
+import api from '../../../api/axios';
 import './editEventPage.css';
-import Spinner from '../../components/Spinner/Spinner';
+import Spinner from '../../../components/Spinner/Spinner';
 
 const LANGUAGES = ['FINNISH', 'ENGLISH', 'SWEDISH'];
 

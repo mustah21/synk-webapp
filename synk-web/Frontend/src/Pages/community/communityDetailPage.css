@@ -206,3 +206,30 @@
 .community-detail-error {
   color: var(--foreground);
 }
+
+.community-detail-edit-btn {
+  flex: 1;
+  background-color: var(--lime);
+  color: #0a0a0a;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.community-detail-edit-btn:hover {
+  opacity: 0.88;
+}
+
+.community-detail-edit-btn:active {
+  transform: scale(0.98);
+}
+
+.join-error {
+  color: var(--danger);
+  font-size: 13px;
+  margin-top: 8px;
+}
