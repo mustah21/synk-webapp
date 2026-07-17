@@ -41,7 +41,7 @@ public class SecurityConfig {
                                 "/auth/v1/user/**",
                                 "/")
                         .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/event/**", "/api/v1/community/**")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/event/**", "/api/v1/community/**", "/api/v1/registration/event/{eventId}/attendees")
                         .permitAll()
                         .anyRequest().authenticated()
                 )
