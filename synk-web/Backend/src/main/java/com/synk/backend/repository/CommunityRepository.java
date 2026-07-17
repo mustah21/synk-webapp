@@ -13,5 +13,5 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
     Optional<Community> findByPublicId(String publicId);
     List<Community> findByCreator(User creator);
     boolean existsByPublicId(String publicId);
-
+    boolean existsByNameAndCreator(String name, User creator);
 }

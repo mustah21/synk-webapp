@@ -7,6 +7,7 @@ import com.synk.backend.dto.communityDto.CreateCommunityRequestDto;
 import com.synk.backend.entity.Community;
 import com.synk.backend.entity.CommunityMember;
 import com.synk.backend.entity.User;
+import com.synk.backend.exceptions.AlreadyExistsException;
 import com.synk.backend.exceptions.ResourceNotFoundException;
 import com.synk.backend.exceptions.UnauthorizedException;
 import com.synk.backend.mapper.CommunityMapper;
@@ -57,6 +58,10 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public CommunityResponseDto createCommunity(CreateCommunityRequestDto dto) {
         User user = findUser(securityUtils.getAuthenticatedUserId());
+
+        if (communityRepository.existsByNameAndCreator(dto.name(), user)) {
+            throw new AlreadyExistsException("You already have a community with this name. Please try with another name.");
+        }
 
         Community community = new Community();
         community.setName(dto.name());
