@@ -17,20 +17,23 @@ public class SecurityUtils {
 
     public User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if  (authentication == null || !authentication.isAuthenticated()) {
+        return getAuthenticatedUser(authentication);
+    }
+    public User getAuthenticatedUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
             throw new UnauthorizedAccessException("User is not authenticated");
         }
-
         String email = authentication.getName();
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
-
     }
 
     // return just the user id of the currently authenticated user
     public Long getAuthenticatedUserId() {
         return getAuthenticatedUser().getId();
+    }
+    public Long getAuthenticatedUserId(Authentication authentication) {
+        return getAuthenticatedUser(authentication).getId();
     }
 
 }

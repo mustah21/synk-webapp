@@ -39,8 +39,11 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/v1/user/**",
                                 "/auth/v1/user/**",
+                                "/ws/**",
                                 "/")
                         .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/community/*/chat")
+                        .authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/event/**", "/api/v1/community/**", "/api/v1/registration/event/{eventId}/attendees")
                         .permitAll()
                         .anyRequest().authenticated()

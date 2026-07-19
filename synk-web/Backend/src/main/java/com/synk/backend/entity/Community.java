@@ -51,7 +51,7 @@ public class Community {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 20000)
     private String description;
 
     @CreationTimestamp
