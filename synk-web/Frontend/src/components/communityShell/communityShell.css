@@ -1,0 +1,81 @@
+.community-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: var(--shell-max-width);
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+.community-shell-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.community-shell-back {
+  background: none;
+  border: none;
+  color: var(--muted-fg);
+  cursor: pointer;
+  font-size: var(--font-base);
+}
+
+.community-shell-back:hover {
+  color: var(--foreground);
+}
+
+.community-shell-title {
+  font-size: var(--font-lg);
+  color: var(--foreground);
+  margin: 0;
+}
+
+.community-shell-tabs {
+  display: flex;
+  gap: var(--space-sm);
+  border-bottom: var(--border-width) solid var(--border);
+  margin-bottom: var(--space-lg);
+}
+
+.community-shell-tab {
+  padding: var(--space-md) var(--space-lg);
+  color: var(--muted-fg);
+  text-decoration: none;
+  font-size: var(--font-base);
+  border-bottom: var(--border-width-thick) solid transparent;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.community-shell-tab-active {
+  color: var(--lime);
+  border-bottom-color: var(--lime);
+}
+
+.community-shell-tab-disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.community-shell-tab-soon {
+  font-size: var(--font-xs);
+  background: var(--muted);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+}
+
+.community-shell-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.community-shell-error {
+  padding: var(--space-2xl);
+  text-align: center;
+  color: var(--muted-fg);
+}

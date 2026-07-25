@@ -4,6 +4,8 @@ import { jwtDecode } from 'jwt-decode';
 import api from '../../api/axios';
 import './communityDetailPage.css';
 import Spinner from '../../components/Spinner/Spinner';
+import ChatWindow from '../../components/Chat/ChatWindow';
+
 
 function CommunityDetailPage() {
   const navigate = useNavigate();
@@ -83,7 +85,14 @@ function CommunityDetailPage() {
           <div className="community-detail-header">
             <h1 className="community-detail-title">{community.name}</h1>
           </div>
-
+          {joined && (
+            <button
+              className="community-detail-chat-btn"
+              onClick={() => navigate(`/communities/${publicId}/chat`)}
+            >
+              Open chat
+            </button>
+          )}
           <div className="community-detail-meta">
             <div className="community-detail-meta-item">
               <span className="community-detail-meta-label">Created by</span>

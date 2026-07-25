@@ -10,6 +10,7 @@ import CreateEventPage from './Pages/events/createEventPage/createEventPage';
 import EditEventPage from './Pages/events/editEventPage/editEventPage';
 import CreateCommunityPage from './Pages/community/createCommunityPage/createCommunityPage';
 import EditCommunityPage from './Pages/community/editCommunityPage/editCommunityPage';
+import CommunityChatPage from './Pages/community/communityChatPage';
 
 import './App.css'
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/event/:publicId/edit" element={<EditEventPage />} />
         <Route path="/communities/create" element={<CreateCommunityPage />} />
         <Route path="/communities/:publicId/edit" element={<EditCommunityPage />} />
+        <Route path="/communities/:publicId/chat" element={<CommunityChatPage />} />
       </Routes>
     </>
   )

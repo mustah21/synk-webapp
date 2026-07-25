@@ -23,7 +23,40 @@
 
   --shadow-lime:    0 0 30px hsl(76, 98%, 60%, 0.25);
   --shadow-lime-sm: 0 0 12px hsl(76, 98%, 60%, 0.15);
+
+
+  /* spacing scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 0.75rem;
+  --space-lg: 1rem;
+  --space-xl: 1.5rem;
+  --space-2xl: 2rem;
+
+  /* radius scale */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+
+  /* font sizes */
+  --font-xs: 0.65rem;
+  --font-sm: 0.75rem;
+  --font-base: 0.9rem;
+  --font-lg: 1.25rem;
+
+  /* layout */
+  --shell-max-width: 900px;
+  --chat-max-bubble-width: 75%;
+
+  /* borders */
+  --border-width: 1px;
+  --border-width-thick: 2px;
+
+  /* misc component sizing */
+  --status-dot-size: 8px;
 }
+
 
 html {
   scroll-behavior: smooth;
@@ -40,3 +73,4 @@ body {
   color: white;
   line-height: 1.5;
 }
+
