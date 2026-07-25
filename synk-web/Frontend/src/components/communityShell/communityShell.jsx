@@ -3,7 +3,7 @@ import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import api from '../../api/axios';
 import Spinner from '../Spinner/Spinner';
 import './CommunityShell.css';
-import TABS from './communityTabs';
+import {TABS} from './communityTabs';
 
 
 function CommunityShell({ activeTab, children }) {
@@ -15,29 +15,41 @@ function CommunityShell({ activeTab, children }) {
   const [joined, setJoined] = useState(null); // null = unknown yet
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
+  const fetchCommunity = () => {
     let cancelled = false;
 
     Promise.all([
       api.get(`/api/v1/community/${publicId}`),
-      api.get(`/api/v1/community-member/${publicId}/me`).catch(() => ({ data: { data: null } })),
+      api
+        .get(`/api/v1/community-member/${publicId}/me`)
+        .catch(() => ({ data: { data: null } })),
     ])
       .then(([communityRes, membershipRes]) => {
         if (cancelled) return;
+
         setCommunity(communityRes.data.data);
         setJoined(!!membershipRes.data.data);
       })
       .catch((err) => {
-        if (!cancelled) setError(err.response?.data?.message || 'Failed to load community');
+        if (!cancelled) {
+          setError(
+            err.response?.data?.message || 'Failed to load community'
+          );
+        }
       })
       .finally(() => {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       });
 
     return () => {
       cancelled = true;
     };
+  };
+
+  useEffect(() => {
+    return fetchCommunity();
   }, [publicId]);
 
   useEffect(() => {
@@ -52,12 +64,13 @@ function CommunityShell({ activeTab, children }) {
   if (!community || joined !== true) return null; // redirecting or not ready yet
 
   return (
+    
     <div className="community-shell">
       <div className="community-shell-header">
         <button className="community-shell-back" onClick={() => navigate('/communities')}>
           ← Communities
         </button>
-        <h1 className="community-shell-title">{community.name}</h1>
+        <h1 className="community-shell-title">Hello {community.name}</h1>
       </div>
 
       <nav className="community-shell-tabs">

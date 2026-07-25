@@ -32,6 +32,7 @@ function App() {
         <Route path="/communities/:publicId/edit" element={<EditCommunityPage />} />
         <Route path="/communities/:publicId/chat" element={<CommunityChatPage />} />
       </Routes>
+      
     </>
   )
 }

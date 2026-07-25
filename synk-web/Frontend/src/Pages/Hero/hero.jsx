@@ -32,7 +32,7 @@ export default function Hero() {
 
             <div className="hero_content-container">
                 <div className="hero_text-container">
-                    <span className="hero_label">SYNK</span>
+                    {/* <span className="hero_label">SYNK</span> */}
                     <h2>Your game starts here.</h2>
                     <p>Set up an event with a few clicks, make a community, grow the sport.</p>
                     <div className='hero_buttons'>

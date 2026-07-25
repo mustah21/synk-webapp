@@ -39,6 +39,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
 }
 
 .chat-empty {
@@ -124,4 +128,47 @@
 
 .chat-status-error {
   color: #e5484d;
+}
+
+.chat-new-messages {
+  position: sticky;
+  bottom: var(--space-md);
+  align-self: center;
+
+  background: var(--lime-50);
+  color: var(--background);
+  border: none;
+  border-radius: var(--radius-md);
+
+  padding: var(--space-sm) var(--space-md);
+
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0.6;
+  box-shadow: var(--shadow-md);
+}
+
+/* Chrome, Edge, Safari */
+.chat-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+
+/* Show a light tint when hovering over the scrollbar */
+.chat-messages:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Firefox hover behavior */
+.chat-messages:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }

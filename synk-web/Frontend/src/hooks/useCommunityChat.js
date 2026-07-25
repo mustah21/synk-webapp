@@ -3,7 +3,10 @@ import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import api from '../api/axios';
 
-export function useCommunityChat(communityPublicId, enabled) {
+
+
+let activeClient = null;
+export function useCommunityChat(communityPublicId, enabled = true) {
   const [messages, setMessages] = useState([]);
   const [connected, setConnected] = useState(false);
   const clientRef = useRef(null);
@@ -13,20 +16,42 @@ export function useCommunityChat(communityPublicId, enabled) {
 
     const token = localStorage.getItem('token');
 
+    setMessages([]);
+    setConnected(false);
+
     const client = new Client({
-      webSocketFactory: () => new SockJS(`${api.defaults.baseURL}/ws`),
-      connectHeaders: { Authorization: `Bearer ${token}` },
+      webSocketFactory: () =>
+        new SockJS(`${api.defaults.baseURL}/ws`),
+
+      connectHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+
       reconnectDelay: 5000,
+
       onConnect: () => {
         setConnected(true);
-        client.subscribe(`/topic/community/${communityPublicId}`, (msg) => {
-          const body = JSON.parse(msg.body);
-          setMessages((prev) => [...prev, body]);
-        });
+
+        client.subscribe(
+          `/topic/community/${communityPublicId}`,
+          (msg) => {
+            const body = JSON.parse(msg.body);
+
+            setMessages((prev) => [...prev, body]);
+          }
+        );
       },
-      onDisconnect: () => setConnected(false),
+
+      onDisconnect: () => {
+        setConnected(false);
+      },
+
       onStompError: (frame) => {
-        console.error('STOMP error:', frame.headers['message'], frame.body);
+        console.error(
+          'STOMP error:',
+          frame.headers['message'],
+          frame.body
+        );
       },
     });
 
@@ -34,6 +59,7 @@ export function useCommunityChat(communityPublicId, enabled) {
     clientRef.current = client;
 
     return () => {
+      setConnected(false);
       client.deactivate();
       clientRef.current = null;
     };
@@ -42,6 +68,7 @@ export function useCommunityChat(communityPublicId, enabled) {
   const sendMessage = useCallback(
     (content) => {
       if (!clientRef.current?.connected) return;
+
       clientRef.current.publish({
         destination: `/app/community/${communityPublicId}/chat`,
         body: JSON.stringify({ content }),
@@ -50,5 +77,19 @@ export function useCommunityChat(communityPublicId, enabled) {
     [communityPublicId]
   );
 
-  return { messages, sendMessage, connected };
+  return {
+    messages,
+    sendMessage,
+    connected,
+  };
+  
+}
+
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => {
+    if (activeClient) {
+      activeClient.deactivate();
+      activeClient = null;
+    }
+  });
 }
