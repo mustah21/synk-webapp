@@ -7,7 +7,8 @@ function CreateCommunityPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: '',
-    description: ''
+    description: '',
+    displayPicture: ''
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -62,6 +63,27 @@ function CreateCommunityPage() {
             rows={4}
             required
           />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="displayPicture">Cover image URL (optional)</label>
+          <input
+            id="displayPicture"
+            name="displayPicture"
+            type="url"
+            value={form.displayPicture}
+            onChange={handleChange}
+            placeholder="https://example.com/image.jpg"
+          />
+          {form.displayPicture && (
+            <img
+              src={form.displayPicture}
+              alt="Preview"
+              className="create-community-image-preview"
+              onError={(e) => { e.target.style.display = 'none'; }}
+              onLoad={(e) => { e.target.style.display = 'block'; }}
+            />
+          )}
         </div>
 
         {error && <div className="form-error">{error}</div>}

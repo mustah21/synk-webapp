@@ -12,7 +12,8 @@ function EditCommunityPage() {
   const [community, setCommunity] = useState(null);
   const [form, setForm] = useState({
     name: '',
-    description: ''
+    description: '',
+    displayPicture: ''
   });
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -36,7 +37,8 @@ function EditCommunityPage() {
         setCommunity(data);
         setForm({
           name: data.name,
-          description: data.description
+          description: data.description,
+          displayPicture: data.displayPicture || ''
         });
       })
       .catch(err => setError(err.response?.data?.message || 'Failed to load community'))
@@ -106,6 +108,27 @@ function EditCommunityPage() {
             rows={4}
             required
           />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="displayPicture">Cover image URL</label>
+          <input
+            id="displayPicture"
+            name="displayPicture"
+            type="url"
+            value={form.displayPicture}
+            onChange={handleChange}
+            placeholder="https://example.com/image.jpg"
+          />
+          {form.displayPicture && (
+            <img
+              src={form.displayPicture}
+              alt="Preview"
+              className="edit-community-image-preview"
+              onError={(e) => { e.target.style.display = 'none'; }}
+              onLoad={(e) => { e.target.style.display = 'block'; }}
+            />
+          )}
         </div>
 
         {error && <div className="form-error">{error}</div>}

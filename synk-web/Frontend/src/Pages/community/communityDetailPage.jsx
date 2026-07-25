@@ -29,19 +29,34 @@ function CommunityDetailPage() {
       .finally(() => setLoading(false));
   };
 
-  const getMembershipStatus = () => {
-    api.get(`/api/v1/community-member/${publicId}/me`)
-      .then(res => setJoined(!!res.data.data))
-      .catch(() => setJoined(false)); // not a member yet, or not logged in
+  const getMembershipStatus = async () => {
+    try {
+      const res = await api.get(
+        `/api/v1/community-member/${publicId}/me`
+      );
+
+      setJoined(!!res.data.data);
+    } catch (err) {
+      if (err.response?.status === 404) {
+        setJoined(false);
+        return;
+      }
+      console.error('Failed to check membership:', err);
+    }
   };
 
   useEffect(() => {
     getCommunity();
-
-    if (token) {
-      getMembershipStatus();
-    }
   }, [publicId]);
+
+  useEffect(() => {
+    if (!token) {
+      setJoined(false);
+      return;
+    }
+
+    getMembershipStatus();
+  }, [publicId, token]);
 
   const handleJoinCommunity = async () => {
     if (joining || joined) return;
