@@ -10,5 +10,6 @@ public record CommunityResponseDto(
         String description,
         UserSummaryDto creator,
         int memberCount,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        String displayPicture
 ) {}

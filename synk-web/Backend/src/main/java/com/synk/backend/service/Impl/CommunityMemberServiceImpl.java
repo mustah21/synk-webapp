@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class CommunityMemberServiceServiceImpl implements CommunityMemberService {
+public class CommunityMemberServiceImpl implements CommunityMemberService {
 
     private final CommunityMemberRepository communityMemberRepository;
     private final SecurityUtils securityUtils;

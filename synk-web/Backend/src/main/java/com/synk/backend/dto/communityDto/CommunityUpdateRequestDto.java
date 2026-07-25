@@ -4,5 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record CommunityUpdateRequestDto(
         @NotBlank String name,
-        @NotBlank String description
+        @NotBlank String description,
+        String displayPicture
 ) {}

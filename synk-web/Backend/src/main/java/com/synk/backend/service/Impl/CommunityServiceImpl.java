@@ -67,6 +67,7 @@ public class CommunityServiceImpl implements CommunityService {
         community.setName(dto.name());
         community.setCreator(user);
         community.setDescription(dto.description());
+        community.setDisplayPicture(dto.displayPicture());
 
         return communityMapper.toResponseDto(communityRepository.save(community));
     }
