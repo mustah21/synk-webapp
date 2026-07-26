@@ -15,7 +15,8 @@ function CreateEventPage() {
     eventDescription: '',
     language: 'ENGLISH'
   });
-  const [hostingDate, setHostingDate] = useState(null);
+  const [startDateTime, setStartDateTime] = useState(null);
+  const [endDateTime, setEndDateTime] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -25,21 +26,38 @@ function CreateEventPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!hostingDate) {
+    if (!startDateTime) {
       setError('Please select a date and time.');
       return;
     }
+    if (startDateTime <= new Date(Date.now() + 5 * 60 * 1000)) {
+      setError('Start time must be at least 5 minutes from now.');
+      return;
+    }
+    if (!endDateTime) {
+      setError('The event must have an end date time');
+      return;
+    }
+    if (endDateTime <= startDateTime) {
+      setError('End date must be after the start date.');
+      return;
+    }
+
+
     setSubmitting(true);
     setError(null);
 
     try {
       const res = await api.post('/api/v1/event/create', {
         ...form,
-        hostingDate: hostingDate.toISOString().slice(0, 19), // adjust to match backend's expected format
+        startDateTime: startDateTime.toISOString().slice(0, 19),
+        endDateTime: endDateTime.toISOString().slice(0, 19),
         communityId: null
       });
       navigate(`/event/${res.data.data.publicId}`);
     } catch (err) {
+      console.error('Create event error:', err); // add this
+
       setError('Failed to create event. Please check your details and try again.');
       setSubmitting(false);
     }
@@ -94,11 +112,11 @@ function CreateEventPage() {
 
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="hostingDate">Date &amp; Time</label>
+            <label htmlFor="startDateTime">Start date &amp; time</label>
             <DatePicker
-              id="hostingDate"
-              selected={hostingDate}
-              onChange={(date) => setHostingDate(date)}
+              id="startDateTime"
+              selected={startDateTime}
+              onChange={(date) => setStartDateTime(date)}
               showTimeSelect
               minDate={new Date()}
               dateFormat="MMM d, yyyy h:mm aa"
@@ -108,8 +126,22 @@ function CreateEventPage() {
               required
             />
           </div>
-
           <div className="form-group">
+            <label htmlFor="endDateTime">End date &amp; time</label>
+            <DatePicker
+              id="endDateTime"
+              selected={endDateTime}
+              onChange={(date) => setEndDateTime(date)}
+              showTimeSelect
+              minDate={startDateTime || new Date()}
+              dateFormat="MMM d, yyyy h:mm aa"
+              placeholderText="Select date and time"
+              className="theme-datepicker-input"
+              calendarClassName="theme-datepicker-calendar"
+              required
+            />
+          </div>
+          {/* <div className="form-group">
             <label htmlFor="language">Language</label>
             <select
               id="language"
@@ -123,7 +155,7 @@ function CreateEventPage() {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
         </div>
 
         {error && <div className="form-error">{error}</div>}
@@ -132,7 +164,7 @@ function CreateEventPage() {
           <button
             type="button"
             className="btn-secondary"
-            onClick={() => navigate('/event')}
+            onClick={() => navigate('/events')}
           >
             Cancel
           </button>

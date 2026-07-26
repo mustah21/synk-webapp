@@ -8,8 +8,9 @@ function CreateCommunityPage() {
   const [form, setForm] = useState({
     name: '',
     description: '',
-    displayPicture: ''
   });
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -17,13 +18,26 @@ function CreateCommunityPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
 
+    const formData = new FormData();
+    formData.append('data', new Blob([JSON.stringify(form)], { type: 'application/json' }));
+    if (imageFile) formData.append('image', imageFile);
+
     try {
-      const res = await api.post('/api/v1/community/create', form);
+      const res = await api.post('/api/v1/community/create', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       navigate(`/communities/${res.data.data.publicId}`);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to create community.');
@@ -66,23 +80,16 @@ function CreateCommunityPage() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="displayPicture">Cover image URL (optional)</label>
+          <label htmlFor="displayPicture">Cover image</label>
           <input
             id="displayPicture"
             name="displayPicture"
-            type="url"
-            value={form.displayPicture}
-            onChange={handleChange}
-            placeholder="https://example.com/image.jpg"
+            type="file"
+            accept='image/*'
+            onChange={handleFileChange}
           />
-          {form.displayPicture && (
-            <img
-              src={form.displayPicture}
-              alt="Preview"
-              className="create-community-image-preview"
-              onError={(e) => { e.target.style.display = 'none'; }}
-              onLoad={(e) => { e.target.style.display = 'block'; }}
-            />
+          {imagePreview && (
+            <img src={imagePreview} alt="Preview" className="create-community-image-preview" />
           )}
         </div>
 

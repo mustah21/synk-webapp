@@ -13,8 +13,10 @@ function EditCommunityPage() {
   const [form, setForm] = useState({
     name: '',
     description: '',
-    displayPicture: ''
   });
+  const [existingImageUrl, setExistingImageUrl] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -37,9 +39,9 @@ function EditCommunityPage() {
         setCommunity(data);
         setForm({
           name: data.name,
-          description: data.description,
-          displayPicture: data.displayPicture || ''
+          description: data.description
         });
+        setExistingImageUrl(data.displayPicture || null);
       })
       .catch(err => setError(err.response?.data?.message || 'Failed to load community'))
       .finally(() => setLoading(false));
@@ -49,13 +51,26 @@ function EditCommunityPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
 
+    const formData = new FormData();
+    formData.append('data', new Blob([JSON.stringify(form)], { type: 'application/json' }))
+    if (imageFile) formData.append('image', imageFile)
+
     try {
-      await api.put(`/api/v1/community/${publicId}`, form);
+      await api.put(`/api/v1/community/${publicId}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       navigate(`/communities/${publicId}`);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to update community.');
@@ -77,6 +92,8 @@ function EditCommunityPage() {
 
   if (loading) return <Spinner fullPage label="Loading community..." />;
   if (!community) return null;
+
+  const displayedImage = imagePreview || existingImageUrl;
 
   return (
     <div className="edit-community-page">
@@ -111,23 +128,27 @@ function EditCommunityPage() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="displayPicture">Cover image URL</label>
+          <label htmlFor="displayPicture">Cover image</label>
           <input
             id="displayPicture"
             name="displayPicture"
-            type="url"
-            value={form.displayPicture}
-            onChange={handleChange}
-            placeholder="https://example.com/image.jpg"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
           />
-          {form.displayPicture && (
-            <img
-              src={form.displayPicture}
-              alt="Preview"
-              className="edit-community-image-preview"
-              onError={(e) => { e.target.style.display = 'none'; }}
-              onLoad={(e) => { e.target.style.display = 'block'; }}
-            />
+          {displayedImage && (
+            <>
+              <img
+                src={displayedImage}
+                alt="Preview"
+                className="edit-community-image-preview"
+              />
+              {imagePreview && (
+                <p className="edit-community-image-hint">
+                  New image selected — will replace the current one on save.
+                </p>
+              )}
+            </>
           )}
         </div>
 
