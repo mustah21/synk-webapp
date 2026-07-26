@@ -3,9 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import api from '../../../api/axios';
 import './editEventPage.css';
+import '../createEventPage/createEventPage.css';
 import Spinner from '../../../components/Spinner/Spinner';
+import EventDateRangePicker from '../../../components/Event/EventDateRangePicker';
+import EventPreviewCard from '../../../components/Event/EventPreviewCard';
 
-const LANGUAGES = ['FINNISH', 'ENGLISH', 'SWEDISH'];
+const LANGUAGES = ['ENGLISH', 'FINNISH', 'SWEDISH'];
 
 function EditEventPage() {
   const { publicId } = useParams();
@@ -16,16 +19,18 @@ function EditEventPage() {
     title: '',
     sportName: '',
     eventDescription: '',
-    hostingDate: '',
-    language: 'ENGLISH'
+    language: 'ENGLISH',
   });
+  const [startDateTime, setStartDateTime] = useState(null);
+  const [endDateTime, setEndDateTime] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const token = localStorage.getItem('token');
-  const currentUserPublicId = token ? jwtDecode(token).publicId : null; // confirm this claim name matches your JWT payload
+  const currentUserPublicId = token ? jwtDecode(token).publicId : null;
 
   useEffect(() => {
     api.get(`/api/v1/event/${publicId}`)
@@ -42,9 +47,10 @@ function EditEventPage() {
           title: data.title,
           sportName: data.sportName,
           eventDescription: data.eventDescription,
-          hostingDate: data.hostingDate?.slice(0, 16), // trim to datetime-local format
-          language: data.language
+          language: data.language,
         });
+        setStartDateTime(data.startDateTime ? new Date(data.startDateTime) : null);
+        setEndDateTime(data.endDateTime ? new Date(data.endDateTime) : null);
       })
       .catch(err => setError(err.response?.data?.message || 'Failed to load event'))
       .finally(() => setLoading(false));
@@ -56,11 +62,25 @@ function EditEventPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!startDateTime || !endDateTime) {
+      setError('Please set both a start and end time.');
+      return;
+    }
+    if (endDateTime <= startDateTime) {
+      setError('End time must be after the start time.');
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
 
     try {
-      await api.put(`/api/v1/event/${publicId}`, form);
+      await api.put(`/api/v1/event/${publicId}`, {
+        ...form,
+        startDateTime: startDateTime.toISOString().slice(0, 19),
+        endDateTime: endDateTime.toISOString().slice(0, 19),
+      });
       navigate(`/event/${publicId}`);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to update event.');
@@ -69,16 +89,16 @@ function EditEventPage() {
   };
 
   const handleDelete = async () => {
-    const confirmed = window.confirm('Delete this event? This cannot be undone.');
-    if (!confirmed) return;
-
     setDeleting(true);
+    setError(null);
+
     try {
       await api.delete(`/api/v1/event/${publicId}`);
       navigate('/events');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to delete event.');
       setDeleting(false);
+      setShowDeleteConfirm(false);
     }
   };
 
@@ -86,105 +106,137 @@ function EditEventPage() {
   if (!event) return null;
 
   return (
-    <div className="edit-event-page">
-      <div className="edit-event-header">
-        <h1>Edit Event</h1>
-        <p>Update your event details</p>
-      </div>
+    <div className="ce-page">
+      <div className="ce-layout">
+        <form className="ce-canvas" onSubmit={handleSubmit}>
+          <div className="ce-eyebrow">Edit event</div>
 
-      <form className="edit-event-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
           <input
-            id="title"
-            name="title"
             type="text"
+            name="title"
+            className="ce-title-input"
             value={form.title}
             onChange={handleChange}
             required
           />
-        </div>
 
-        <div className="form-group">
-          <label htmlFor="sportName">Sport</label>
-          <input
-            id="sportName"
-            name="sportName"
-            type="text"
-            value={form.sportName}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <div className="ce-title-divider" />
 
-        <div className="form-group">
-          <label htmlFor="eventDescription">Description</label>
           <textarea
-            id="eventDescription"
             name="eventDescription"
+            className="ce-desc-input"
             value={form.eventDescription}
             onChange={handleChange}
-            rows={4}
+            rows={2}
             required
           />
-        </div>
 
-        <div className="form-row">
-          <div className="form-group">
-            <label htmlFor="hostingDate">Date &amp; Time</label>
-            <input
-              id="hostingDate"
-              name="hostingDate"
-              type="datetime-local"
-              value={form.hostingDate}
-              onChange={handleChange}
-              required
-            />
+          <div className="ce-rows">
+            <div className="ce-daterange-row">
+              <EventDateRangePicker
+                startDate={startDateTime}
+                endDate={endDateTime}
+                onChange={(start, end) => {
+                  setStartDateTime(start);
+                  setEndDateTime(end);
+                }}
+              />
+            </div>
+
+            <div className="ce-row">
+              <div className="ce-row-icon">⚽</div>
+              <div className="ce-row-body">
+                <input
+                  type="text"
+                  name="sportName"
+                  className="ce-row-input"
+                  value={form.sportName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="ce-row">
+              <div className="ce-row-icon">🌐</div>
+              <div className="ce-row-body">
+                <select
+                  name="language"
+                  className="ce-row-select"
+                  value={form.language}
+                  onChange={handleChange}
+                >
+                  {LANGUAGES.map(lang => (
+                    <option key={lang} value={lang}>
+                      {lang.charAt(0) + lang.slice(1).toLowerCase()}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="language">Language</label>
-            <select
-              id="language"
-              name="language"
-              value={form.language}
-              onChange={handleChange}
-            >
-              {LANGUAGES.map(lang => (
-                <option key={lang} value={lang}>
-                  {lang.charAt(0) + lang.slice(1).toLowerCase()}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
+          {error && <div className="ce-error">{error}</div>}
 
-        {error && <div className="form-error">{error}</div>}
-
-        <div className="form-actions">
-          <button
-            type="button"
-            className="btn-danger"
-            onClick={handleDelete}
-            disabled={deleting || submitting}
-          >
-            {deleting ? 'Deleting...' : 'Delete event'}
-          </button>
-
-          <div className="form-actions-right">
+          <div className="ce-actions">
             <button
               type="button"
-              className="btn-secondary"
-              onClick={() => navigate(`/event/${publicId}`)}
+              className="ce-btn-danger"
+              onClick={() => setShowDeleteConfirm(true)}
+              disabled={deleting || submitting}
             >
-              Cancel
+              Delete Event
             </button>
-            <button type="submit" className="btn-primary" disabled={submitting || deleting}>
-              {submitting ? 'Saving...' : 'Save changes'}
-            </button>
+
+            <div className="ce-actions-right">
+              <button type="button" className="ce-btn-ghost" onClick={() => navigate(`/event/${publicId}`)}>
+                Cancel
+              </button>
+              <button type="submit" className="ce-btn-primary" disabled={submitting || deleting}>
+                {submitting ? 'Saving…' : 'Save changes'}
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <EventPreviewCard
+          title={form.title}
+          sportName={form.sportName}
+          eventDescription={form.eventDescription}
+          language={form.language}
+          startDateTime={startDateTime}
+          endDateTime={endDateTime}
+        />
+      </div>
+
+      {showDeleteConfirm && (
+        <div className="delete-modal-overlay">
+          <div className="delete-modal">
+            <h2>Delete this event?</h2>
+            <p>This action cannot be undone.</p>
+
+            <div className="delete-modal-actions">
+              <button
+                type="button"
+                className="ce-btn-ghost"
+                onClick={() => setShowDeleteConfirm(false)}
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                className="ce-btn-danger"
+                onClick={handleDelete}
+                disabled={deleting}
+              >
+                {deleting ? 'Deleting…' : 'Yes, delete it'}
+              </button>
+            </div>
           </div>
         </div>
-      </form>
+      )}
     </div>
   );
 }

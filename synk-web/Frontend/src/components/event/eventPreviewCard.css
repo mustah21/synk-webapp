@@ -1,0 +1,93 @@
+.epc {
+  position: sticky;
+  top: 64px;
+}
+
+.epc-eyebrow {
+  font-size: var(--font-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-fg);
+  margin-bottom: var(--space-md);
+}
+
+.epc-card {
+  background: var(--card);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  transition: border-color 0.3s ease;
+}
+
+.epc-top {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.epc-sport-pill,
+.epc-lang-pill {
+  font-size: var(--font-xs);
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.epc-sport-pill {
+  background: var(--lime);
+  color: var(--background);
+}
+
+.epc-lang-pill {
+  background: var(--muted);
+  color: var(--muted-fg);
+}
+
+.epc-title {
+  font-size: var(--font-xl);
+  font-weight: 800;
+  color: var(--foreground);
+  margin: 0 0 var(--space-lg);
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.epc-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-lg);
+  border-bottom: var(--border-width) solid var(--border);
+}
+
+.epc-meta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-sm);
+  color: var(--muted-fg);
+}
+
+.epc-meta-icon {
+  font-size: var(--font-base);
+}
+
+.epc-desc {
+  font-size: var(--font-sm);
+  color: var(--muted-fg);
+  line-height: 1.6;
+  margin: 0 0 var(--space-lg);
+}
+
+.epc-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.epc-footer-label {
+  font-size: var(--font-xs);
+  color: var(--lime);
+  font-weight: 700;
+}

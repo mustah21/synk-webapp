@@ -1,0 +1,214 @@
+.edrp {
+  position: relative;
+  width: 100%;
+}
+
+.edrp-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  background: var(--card);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg) var(--space-xl);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.edrp-trigger:hover {
+  border-color: var(--lime);
+}
+
+.edrp-trigger-side {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.edrp-trigger-label {
+  font-size: var(--font-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-fg);
+  font-weight: 700;
+}
+
+.edrp-trigger-value {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.edrp-trigger-time {
+  font-weight: 500;
+  color: var(--lime);
+  margin-left: 6px;
+}
+
+.edrp-trigger-arrow {
+  color: var(--muted-fg);
+  font-size: var(--font-lg);
+  flex-shrink: 0;
+}
+
+/* Popover */
+.edrp-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  z-index: 40;
+  background: var(--card);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.6);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.edrp-popover-calendar .react-datepicker {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  width: 100%;
+}
+
+.edrp-popover-calendar .react-datepicker__month-container {
+  width: 100%;
+}
+
+.edrp-popover-calendar .react-datepicker__header {
+  background: transparent;
+  border-bottom: var(--border-width) solid var(--border);
+}
+
+.edrp-popover-calendar .react-datepicker__current-month,
+.edrp-popover-calendar .react-datepicker__day-name,
+.edrp-popover-calendar .react-datepicker__day {
+  color: var(--foreground);
+}
+
+.edrp-popover-calendar .react-datepicker__day:hover {
+  background: var(--muted);
+  border-radius: var(--radius-sm);
+}
+
+.edrp-popover-calendar .react-datepicker__day--in-range,
+.edrp-popover-calendar .react-datepicker__day--in-selecting-range {
+  background: rgba(163, 230, 53, 0.18);
+  color: var(--foreground);
+  border-radius: 0;
+}
+
+.edrp-popover-calendar .react-datepicker__day--range-start,
+.edrp-popover-calendar .react-datepicker__day--range-end,
+.edrp-popover-calendar .react-datepicker__day--selecting-range-start {
+  background: var(--lime) !important;
+  color: var(--background) !important;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+}
+
+.edrp-popover-calendar .react-datepicker__day--disabled {
+  color: var(--muted-fg);
+  opacity: 0.35;
+}
+
+/* Time section */
+.edrp-time-tabs {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.edrp-time-tab {
+  flex: 1;
+  background: var(--muted);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--muted-fg);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.edrp-time-tab-active {
+  background: var(--lime);
+  color: var(--background);
+}
+
+.edrp-time-strip {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px 2px;
+  scroll-behavior: smooth;
+}
+
+.edrp-time-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.edrp-time-strip::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.edrp-time-chip {
+  flex-shrink: 0;
+  background: var(--muted);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  color: var(--foreground);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.edrp-time-chip:hover {
+  border-color: var(--lime);
+}
+
+.edrp-time-active {
+  background: var(--lime);
+  color: var(--background);
+}
+
+.edrp-done-btn {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: var(--lime);
+  font-weight: 700;
+  font-size: var(--font-sm);
+  cursor: pointer;
+  padding: 6px 12px;
+}
+
+.edrp-time-input {
+  width: 100%;
+  background: var(--muted);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--foreground);
+  text-align: center;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-sm);
+  transition: border-color 0.15s ease;
+}
+
+.edrp-time-input:focus {
+  outline: none;
+  border-color: var(--lime);
+}

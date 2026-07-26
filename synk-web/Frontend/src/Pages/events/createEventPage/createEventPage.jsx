@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import api from '../../../api/axios';
-import './CreateEventPage.css';
+import './createEventPage.css';
+import EventDateRangePicker from '../../../components/event/eventDateRangePicker';
 
-const LANGUAGES = ['FINNISH', 'ENGLISH', 'SWEDISH'];
+
+const LANGUAGES = ['ENGLISH', 'FINNISH', 'SWEDISH'];
 
 function CreateEventPage() {
   const navigate = useNavigate();
@@ -13,10 +15,11 @@ function CreateEventPage() {
     title: '',
     sportName: '',
     eventDescription: '',
-    language: 'ENGLISH'
+    language: 'ENGLISH',
   });
   const [startDateTime, setStartDateTime] = useState(null);
   const [endDateTime, setEndDateTime] = useState(null);
+  const [openField, setOpenField] = useState(null); // which row is expanded for editing
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -24,25 +27,33 @@ function CreateEventPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const toggleField = (name) => {
+    setOpenField((prev) => (prev === name ? null : name));
+  };
+
+  const formatDate = (date) =>
+    date
+      ? date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })
+      : 'Not set';
+
+  const formatTime = (date) =>
+    date ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!startDateTime) {
-      setError('Please select a date and time.');
+
+    if (!startDateTime || !endDateTime) {
+      setError('Please set both a start and end time.');
       return;
     }
     if (startDateTime <= new Date(Date.now() + 5 * 60 * 1000)) {
-      setError('Start time must be at least 5 minutes from now.');
-      return;
-    }
-    if (!endDateTime) {
-      setError('The event must have an end date time');
+      setError('Start time must be at least a few minutes from now.');
       return;
     }
     if (endDateTime <= startDateTime) {
-      setError('End date must be after the start date.');
+      setError('End time must be after the start time.');
       return;
     }
-
 
     setSubmitting(true);
     setError(null);
@@ -52,127 +63,103 @@ function CreateEventPage() {
         ...form,
         startDateTime: startDateTime.toISOString().slice(0, 19),
         endDateTime: endDateTime.toISOString().slice(0, 19),
-        communityId: null
+        communityId: null,
       });
       navigate(`/event/${res.data.data.publicId}`);
     } catch (err) {
-      console.error('Create event error:', err); // add this
-
-      setError('Failed to create event. Please check your details and try again.');
+      setError(err.response?.data?.message || 'Failed to create event. Please check your details.');
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="create-event-page">
-      <div className="create-event-header">
-        <h1>Create Event</h1>
-        <p>Set up a game for others to join</p>
-      </div>
+    <div className="ce-page">
+      <form className="ce-canvas" onSubmit={handleSubmit}>
+        <div className="ce-eyebrow">New event</div>
 
-      <form className="create-event-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
-          <input
-            id="title"
-            name="title"
-            type="text"
-            value={form.title}
-            onChange={handleChange}
-            placeholder="Sunday 5-a-side"
-            required
-          />
-        </div>
+        <input
+          type="text"
+          name="title"
+          className="ce-title-input"
+          placeholder="Sunday 5-a-side"
+          value={form.title}
+          onChange={handleChange}
+          required
+        />
+        <div className="ce-title-divider" />
+        <textarea
+          name="eventDescription"
+          className="ce-desc-input"
+          placeholder="What's the plan? Casual game, all levels welcome…"
+          value={form.eventDescription}
+          onChange={handleChange}
+          rows={2}
+          required
+        />
 
-        <div className="form-group">
-          <label htmlFor="sportName">Sport</label>
-          <input
-            id="sportName"
-            name="sportName"
-            type="text"
-            value={form.sportName}
-            onChange={handleChange}
-            placeholder="Football"
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="eventDescription">Description</label>
-          <textarea
-            id="eventDescription"
-            name="eventDescription"
-            value={form.eventDescription}
-            onChange={handleChange}
-            placeholder="Casual game, all levels welcome"
-            rows={4}
-            required
-          />
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label htmlFor="startDateTime">Start date &amp; time</label>
-            <DatePicker
-              id="startDateTime"
-              selected={startDateTime}
-              onChange={(date) => setStartDateTime(date)}
-              showTimeSelect
-              minDate={new Date()}
-              dateFormat="MMM d, yyyy h:mm aa"
-              placeholderText="Select date and time"
-              className="theme-datepicker-input"
-              calendarClassName="theme-datepicker-calendar"
-              required
+        <div className="ce-rows">
+          {/* Start / End */}
+          <div className="ce-daterange-row">
+            <EventDateRangePicker
+              startDate={startDateTime}
+              endDate={endDateTime}
+              onChange={(start, end) => {
+                setStartDateTime(start);
+                setEndDateTime(end);
+              }}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="endDateTime">End date &amp; time</label>
-            <DatePicker
-              id="endDateTime"
-              selected={endDateTime}
-              onChange={(date) => setEndDateTime(date)}
-              showTimeSelect
-              minDate={startDateTime || new Date()}
-              dateFormat="MMM d, yyyy h:mm aa"
-              placeholderText="Select date and time"
-              className="theme-datepicker-input"
-              calendarClassName="theme-datepicker-calendar"
-              required
-            />
+
+          {/* Sport */}
+          <div className="ce-row">
+            <div className="ce-row-icon">⚽</div>
+            <div className="ce-row-body">
+              <input
+                type="text"
+                name="sportName"
+                className="ce-row-input"
+                placeholder="Sport — Football, Padel, Basketball…"
+                value={form.sportName}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
-          {/* <div className="form-group">
-            <label htmlFor="language">Language</label>
-            <select
-              id="language"
-              name="language"
-              value={form.language}
-              onChange={handleChange}
-            >
-              {LANGUAGES.map(lang => (
-                <option key={lang} value={lang}>
-                  {lang.charAt(0) + lang.slice(1).toLowerCase()}
-                </option>
-              ))}
-            </select>
+
+          {/* Language */}
+          {/* <div className="ce-row">
+            <div className="ce-row-icon">🌐</div>
+            <div className="ce-row-body">
+              <select
+                name="language"
+                className="ce-row-select"
+                value={form.language}
+                onChange={handleChange}
+              >
+                {LANGUAGES.map((lang) => (
+                  <option key={lang} value={lang}>
+                    {lang.charAt(0) + lang.slice(1).toLowerCase()}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div> */}
+
         </div>
 
-        {error && <div className="form-error">{error}</div>}
+        {error && <div className="ce-error">{error}</div>}
 
-        <div className="form-actions">
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => navigate('/events')}
-          >
+        <div className="ce-actions">
+          <button type="button" className="ce-btn-ghost" onClick={() => navigate('/events')}>
             Cancel
           </button>
-          <button type="submit" className="btn-primary" disabled={submitting}>
-            {submitting ? 'Creating...' : 'Create Event'}
+          <button type="submit" className="ce-btn-primary" disabled={submitting}>
+            {submitting ? 'Creating…' : 'Create event'}
           </button>
         </div>
       </form>
+
+      
     </div>
   );
 }
