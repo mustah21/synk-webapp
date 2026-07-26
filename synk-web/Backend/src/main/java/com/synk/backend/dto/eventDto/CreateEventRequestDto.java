@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 public record CreateEventRequestDto(
         @NotBlank String title,
         @NotBlank String sportName,
-        @NotNull @Future LocalDateTime endDateTime,
         @NotNull @Future LocalDateTime startDateTime,
+        @NotNull @Future LocalDateTime endDateTime,
         Event.Language language,
         @NotNull String eventDescription
 ){}
-// addding the userId manually in the controller
+// adding the userId manually in the controller

@@ -38,7 +38,6 @@ public class EventController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    // should this be "/events" or "/" since it is "/api/v1/event/"
     @GetMapping("/events")
     public ResponseEntity<ApiResponse<List<EventResponseDto>>> getAllEvents() {
         List<EventResponseDto> events = eventService.getAllEvents();
@@ -50,7 +49,7 @@ public class EventController {
                         .data(events)
                         .build());
     }
-    @ExceptionHandler(Exception.class)
+
     @GetMapping("/{eventId}")
     public ResponseEntity<ApiResponse<EventResponseDto>> getEvent(@PathVariable String eventId) {
         EventResponseDto event = eventService.getEvent(eventId);
