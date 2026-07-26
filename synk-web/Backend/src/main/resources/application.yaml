@@ -26,10 +26,11 @@ spring:
               - profile
 
 
-  logging:
-    level:
-      root: INFO
-      com.synk.backend: DEBUG
+logging:
+  level:
+    root: INFO
+    com.synk.backend: DEBUG
+
 server:
   port: ${PORT}
 
@@ -39,9 +40,10 @@ jwt:
   refresh_lifespan: 604800000 # 7 days
 
 
+aws:
+  s3:
+    bucket-name: synk-community-images
+    region: eu-north-1
+  access-key: ${AWS_ACCESS_KEY}
+  secret-key: ${AWS_SECRET_KEY}
 
-#app:
-#  frontend:
-#    url: ${FRONTEND_URL}
-#  backend:
-#    base-url: ${BACKEND_URL}

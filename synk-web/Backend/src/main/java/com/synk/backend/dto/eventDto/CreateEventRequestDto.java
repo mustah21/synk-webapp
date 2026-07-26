@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 public record CreateEventRequestDto(
         @NotBlank String title,
         @NotBlank String sportName,
-        @NotNull @Future LocalDateTime hostingDate,
+        @NotNull @Future LocalDateTime endDateTime,
+        @NotNull @Future LocalDateTime startDateTime,
         Event.Language language,
         @NotNull String eventDescription
 ){}

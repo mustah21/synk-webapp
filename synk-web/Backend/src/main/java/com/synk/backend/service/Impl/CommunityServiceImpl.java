@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -36,6 +37,7 @@ public class CommunityServiceImpl implements CommunityService {
     private final CommunityMemberRepository communityMemberRepository;
     private final CommunityMapper communityMapper;
     private final SecurityUtils securityUtils;
+    private final S3ServiceImpl s3ServiceImpl;
 
     private User findUser(Long userId) {
         return userRepository.findById(userId)
@@ -56,7 +58,7 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Transactional
     @Override
-    public CommunityResponseDto createCommunity(CreateCommunityRequestDto dto) {
+    public CommunityResponseDto createCommunity(CreateCommunityRequestDto dto, MultipartFile displayImage) {
         User user = findUser(securityUtils.getAuthenticatedUserId());
 
         if (communityRepository.existsByNameAndCreator(dto.name(), user)) {
@@ -67,18 +69,29 @@ public class CommunityServiceImpl implements CommunityService {
         community.setName(dto.name());
         community.setCreator(user);
         community.setDescription(dto.description());
-        community.setDisplayPicture(dto.displayPicture());
+
+        if (displayImage != null && !displayImage.isEmpty()) {
+            String imageUrl = s3ServiceImpl.uploadFile(displayImage);
+            community.setDisplayPicture(imageUrl);
+        }
 
         return communityMapper.toResponseDto(communityRepository.save(community));
     }
 
     @Transactional
     @Override
-    public CommunityResponseDto updateCommunity(CommunityUpdateRequestDto communityUpdateRequestDto, String publicCommunityId) {
+    public CommunityResponseDto updateCommunity(
+            CommunityUpdateRequestDto communityUpdateRequestDto, String publicCommunityId, MultipartFile image) {
         Community community = findCommunity(publicCommunityId);
         verifyCommunityOwnership(community, community.getCreator());
 
         communityMapper.updateCommunityFromDto(communityUpdateRequestDto, community);
+
+        if (image != null && !image.isEmpty()) {
+            s3ServiceImpl.deleteFile(community.getDisplayPicture());
+            String newImageUrl = s3ServiceImpl.uploadFile(image);
+            community.setDisplayPicture(newImageUrl);
+        }
 
         return communityMapper.toResponseDto(communityRepository.save(community));
     }
@@ -90,6 +103,7 @@ public class CommunityServiceImpl implements CommunityService {
         verifyCommunityOwnership(community, community.getCreator());
 
         communityRepository.delete(community);
+        s3ServiceImpl.deleteFile(community.getDisplayPicture());
         return community.getName() + " has been deleted";
     }
 

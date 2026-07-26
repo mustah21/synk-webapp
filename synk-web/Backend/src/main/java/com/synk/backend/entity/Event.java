@@ -48,8 +48,11 @@ public class Event {
     @Column(name = "event_name")
     private String title;
 
-    @Column(name = "hosting_date")
-    private LocalDateTime hostingDate;
+    @Column(name = "start_datetime")
+    private LocalDateTime startDateTime;
+
+    @Column(name = "end_datetime")
+    private LocalDateTime endDateTime;
 
     @Column(name = "sport_name")
     private String sportName;

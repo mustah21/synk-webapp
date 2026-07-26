@@ -82,25 +82,25 @@ public class EventServiceImpl {
                 .toList();
     }
 
-    public List<EventResponseDto> getEventByHostingDateAndUser(Long userId, LocalDateTime hostDate) {
+    public List<EventResponseDto> getEventByStartDateTimeAndUser(Long userId, LocalDateTime hostDate) {
         User user = findUser(userId);
         return eventRepository
-                .findByCreatorAndHostingDate(user, hostDate)
+                .findByCreatorAndStartDateTime(user, hostDate)
                 .stream()
                 .map(eventMapper::toResponseDto)
                 .toList();
     }
 
-    public List<EventResponseDto> getEventByHostingDate(LocalDateTime hostDate) {
+    public List<EventResponseDto> getEventByStartDateTime(LocalDateTime hostDate) {
         return eventRepository
-                .findByHostingDate(hostDate)
+                .findByStartDateTime(hostDate)
                 .stream()
                 .map(eventMapper::toResponseDto)
                 .toList();
     }
 
     public List<EventResponseDto> getAllEvents() {
-        return eventRepository.findByHostingDateAfter(LocalDateTime.now())
+        return eventRepository.findByStartDateTimeAfter(LocalDateTime.now())
                 .stream()
                 .map(eventMapper::toResponseDto)
                 .toList();
@@ -123,8 +123,6 @@ public class EventServiceImpl {
         eventRepository.delete(event);
         return event.getTitle() + " has been deleted successfully";
     }
-
-
 
 
 }

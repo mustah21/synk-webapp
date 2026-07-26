@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,10 +25,11 @@ public class CommunityController {
 
     private final CommunityService communityService;
 
-    @PostMapping("/create")
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<CommunityResponseDto>> createCommunity(
-            @Valid @RequestBody CreateCommunityRequestDto dto) {
-        CommunityResponseDto created = communityService.createCommunity(dto);
+            @RequestPart("data") @Valid CreateCommunityRequestDto dto,
+            @RequestPart(value = "image", required = false) MultipartFile image) {
+        CommunityResponseDto created = communityService.createCommunity(dto, image);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 ApiResponse.<CommunityResponseDto>builder()
                         .status(HttpStatus.CREATED.value())
@@ -38,8 +41,9 @@ public class CommunityController {
     @PutMapping("/{communityPublicId}")
     public ResponseEntity<ApiResponse<CommunityResponseDto>> updateCommunity(
             @PathVariable String communityPublicId,
-            @Valid @RequestBody CommunityUpdateRequestDto dto) {
-        CommunityResponseDto updated = communityService.updateCommunity(dto, communityPublicId);
+            @RequestPart("data") @Valid CommunityUpdateRequestDto dto,
+            @RequestPart(value = "image", required = false) MultipartFile image) {
+        CommunityResponseDto updated = communityService.updateCommunity(dto, communityPublicId, image);
         return ResponseEntity.ok(
                 ApiResponse.<CommunityResponseDto>builder()
                         .status(HttpStatus.OK.value())

@@ -6,5 +6,7 @@ public record EventSummaryDto(
         String publicId,
         String title,
         String sportName,
-        LocalDateTime hostingDate
+        LocalDateTime startDateTime,
+        LocalDateTime endDateTime
+
 ) {}

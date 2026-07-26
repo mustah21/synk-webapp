@@ -76,7 +76,7 @@ public class EventController {
 
     @GetMapping("/date")
     public ResponseEntity<ApiResponse<List<EventResponseDto>>> getEventsByDate(@RequestParam LocalDateTime hostDate) {
-        List<EventResponseDto> events = eventService.getEventByHostingDate(hostDate);
+        List<EventResponseDto> events = eventService.getEventByStartDateTime(hostDate);
         return ResponseEntity.ok(
                 ApiResponse.<List<EventResponseDto>>builder()
                         .status(HttpStatus.OK.value())

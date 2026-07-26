@@ -6,16 +6,18 @@ import com.synk.backend.dto.communityDto.CommunityUpdateRequestDto;
 import com.synk.backend.dto.communityDto.CreateCommunityRequestDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 // CRUD
 public interface CommunityService {
 
     // create
-    CommunityResponseDto createCommunity(CreateCommunityRequestDto createCommunityRequestDto);
+    CommunityResponseDto createCommunity(CreateCommunityRequestDto createCommunityRequestDto, MultipartFile displayImage);
 
     // Update
-    CommunityResponseDto updateCommunity(CommunityUpdateRequestDto communityUpdateRequestDto, String publicCommunityId);
+    CommunityResponseDto updateCommunity(CommunityUpdateRequestDto communityUpdateRequestDto, String publicCommunityId,  MultipartFile displayImage);
 
     // delete
     String deleteCommunity(String communityPublicId);
