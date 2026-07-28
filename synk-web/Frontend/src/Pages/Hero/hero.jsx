@@ -36,7 +36,7 @@ export default function Hero() {
                     <h2>Your game starts here.</h2>
                     <p>Set up an event with a few clicks, make a community, grow the sport.</p>
                     <div className='hero_buttons'>
-                        <button className="button_button">Book a game</button>
+                        <button className="button_button">Book an event</button>
                         <button className="discover_button">Discover</button>
                     </div>
                 </div>

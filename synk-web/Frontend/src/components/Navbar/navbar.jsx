@@ -17,10 +17,10 @@ export default function Navbar() {
         <span className="navbar_logo">SYNK</span>
       </Link>
       <div className="navbar_links">
-        {/* <Link to="/events">Events</Link>
-        <Link to="/communities">Communities</Link> */}
+        <Link to="/events">Events</Link>
+        <Link to="/communities">Communities</Link>
 
-        <Link href="discover">Discover</Link>
+        {/* <Link href="discover">Discover</Link> */}
 
         {isAuth ? (
           <button className="navbar_cta" onClick={handleLogout}>Log out</button>
