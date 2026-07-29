@@ -49,23 +49,65 @@ function EventsPage() {
         <div className="events-status">No events yet. Be the first to create one.</div>
       ) : (
         <div className="events-grid">
-          {events.map(event => (
-            <div key={event.publicId} className="event-card" onClick={() => navigate(`/event/${event.publicId}`)}>
+          {events.map(event => {
+            // NOTE: adjust these field names if your API returns something different
+            // (check the Network tab response for /api/v1/event/events)
+            const startDateTime = event.startDateTime ? new Date(event.startDateTime) : null;
+            const endDateTime = event.endDateTime ? new Date(event.endDateTime) : null;
 
-              <div className="event-card-sport">{event.sportName}</div>
-              <h2 className="event-card-title">{event.title}</h2>
-              <p className="event-card-description">{event.eventDescription}</p>
-              <div className="event-card-footer">
-                <span className="event-card-date">
-                  {new Date(event.hostingDate).toLocaleDateString('en-GB', {
-                    day: 'numeric', month: 'short', year: 'numeric'
-                  })}
-                </span>
-                <span className="event-card-count">{event.registeredCount} joined</span>
+            const dayLabel = startDateTime
+              ? startDateTime.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })
+              : 'Date not set';
+
+            const startTime = startDateTime
+              ? startDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              : null;
+            const endTime = endDateTime
+              ? endDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              : null;
+
+            const timeLabel = startTime && endTime ? `${startTime} – ${endTime}` : 'Time not set';
+
+            return (
+              <div
+                key={event.publicId}
+                className="event-card"
+                onClick={() => navigate(`/event/${event.publicId}`)}
+              >
+                <div className="event-card-top">
+                  {event.sportName && (
+                    <span className="event-card-sport-pill">{event.sportName}</span>
+                  )}
+                  {event.language && (
+                    <span className="event-card-lang-pill">
+                      {event.language.charAt(0) + event.language.slice(1).toLowerCase()}
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="event-card-title">{event.title || 'Untitled event'}</h3>
+
+                <div className="event-card-meta">
+                  <div className="event-card-meta-row">
+                    <span className="event-card-meta-icon">📅</span>
+                    <span>{dayLabel}</span>
+                  </div>
+                  <div className="event-card-meta-row">
+                    <span className="event-card-meta-icon">🕒</span>
+                    <span>{timeLabel}</span>
+                  </div>
+                </div>
+
+                {event.eventDescription && (
+                  <p className="event-card-description">{event.eventDescription}</p>
+                )}
+
+                <div className="event-card-footer">
+                  <span className="event-card-count">{event.registeredCount || 0} spots taken</span>
+                </div>
               </div>
-
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

@@ -42,7 +42,6 @@
   background-color: #d6d1c3;
 }
 
-
 .events-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -51,9 +50,9 @@
 
 .event-card {
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.25rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
   cursor: pointer;
   transition:
     transform 0.35s ease,
@@ -66,42 +65,76 @@
   box-shadow: 0 4px 4px var(--lime-900);
 }
 
-.event-card-sport {
-  font-size: 0.7rem;
+.event-card-top {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.event-card-sport-pill,
+.event-card-lang-pill {
+  font-size: var(--font-xs);
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--lime);
-  margin-bottom: 0.6rem;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.event-card-sport-pill {
+  background: var(--lime);
+  color: var(--background);
+}
+
+.event-card-lang-pill {
+  background: var(--muted);
+  color: var(--muted-fg);
 }
 
 .event-card-title {
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: var(--font-xl);
+  font-weight: 800;
   color: var(--foreground);
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--space-lg);
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.event-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-lg);
+  border-bottom: var(--border-width) solid var(--border);
+}
+
+.event-card-meta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-sm);
+  color: var(--muted-fg);
+}
+
+.event-card-meta-icon {
+  font-size: var(--font-base);
 }
 
 .event-card-description {
-  font-size: 0.85rem;
+  font-size: var(--font-sm);
   color: var(--muted-fg);
-  margin: 0 0 1.25rem;
-  line-height: 1.55;
+  line-height: 1.6;
+  margin: 0 0 var(--space-lg);
 }
 
 .event-card-footer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.78rem;
-  color: var(--muted-fg);
-  border-top: 1px solid var(--border);
-  padding-top: 0.75rem;
+  justify-content: flex-end;
 }
 
 .event-card-count {
-  font-weight: 600;
+  font-size: var(--font-xs);
   color: var(--lime);
+  font-weight: 700;
 }
 
 .events-status {
