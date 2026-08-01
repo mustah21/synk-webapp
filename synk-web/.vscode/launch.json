@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "com.synk.backend.Main",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "Debug Spring Boot",
+            "request": "launch",
+            "mainClass": "com.synk.backend.Main",
+            "projectName": "backend",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

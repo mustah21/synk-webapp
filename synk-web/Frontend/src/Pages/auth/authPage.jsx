@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/authContext';
-import './AuthPage.css';
+import './authPage.css';
 
 const API_BASE = 'http://localhost:3000';
 

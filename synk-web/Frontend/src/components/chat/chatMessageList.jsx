@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import ChatMessage from './ChatMessage';
+import ChatMessage from './chatMessage';
 
 function ChatMessageList({ messages, currentUserPublicId }) {
   const messagesRef = useRef(null);

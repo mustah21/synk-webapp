@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import api from '../../api/axios';
 import './communityDetailPage.css';
-import Spinner from '../../components/Spinner/Spinner';
-import ChatWindow from '../../components/Chat/ChatWindow';
+import Spinner from '../../components/Spinner/spinner.jsx';
 
 
 function CommunityDetailPage() {

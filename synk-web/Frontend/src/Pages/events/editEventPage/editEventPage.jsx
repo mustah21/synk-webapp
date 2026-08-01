@@ -4,9 +4,9 @@ import { jwtDecode } from 'jwt-decode';
 import api from '../../../api/axios';
 import './editEventPage.css';
 import '../createEventPage/createEventPage.css';
-import Spinner from '../../../components/Spinner/Spinner';
-import EventDateRangePicker from '../../../components/Event/EventDateRangePicker';
-import EventPreviewCard from '../../../components/Event/EventPreviewCard';
+import Spinner from '../../../components/Spinner/spinner.jsx';
+import EventDateRangePicker from '../../../components/event/eventDateRangePicker';
+import EventPreviewCard from '../../../components/event/eventPreviewCard.jsx';
 
 const LANGUAGES = ['ENGLISH', 'FINNISH', 'SWEDISH'];
 

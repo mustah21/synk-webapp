@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import './Cubes.css';
+import './cubes.css';
 
 const Cubes = ({
   gridSize = 10,

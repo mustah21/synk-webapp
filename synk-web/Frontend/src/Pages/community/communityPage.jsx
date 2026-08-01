@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import './communityPage.css';
 import { useNavigate } from 'react-router-dom';
-import Spinner from '../../components/Spinner/Spinner';
+import Spinner from '../../components/Spinner/spinner';
 import CommunityCard from '../../components/communityCard/communityCard';
 
 function CommunitiesPage() {

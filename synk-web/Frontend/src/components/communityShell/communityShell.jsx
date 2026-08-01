@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import api from '../../api/axios';
-import Spinner from '../Spinner/Spinner';
-import './CommunityShell.css';
+import Spinner from '../Spinner/spinner';
+import './communityShell.css';
 import {TABS} from './communityTabs';
 
 

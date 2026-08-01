@@ -1,4 +1,4 @@
-import './CommunityCard.css';
+import './communityCard.css';
 
 function CommunityCard({ community, onClick }) {
   const initials = community.name?.slice(0, 2).toUpperCase();

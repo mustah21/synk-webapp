@@ -2,11 +2,11 @@ import { useAuth } from '../../context/authContext';
 import { useChatHistory } from '../../hooks/useChatHistory';
 import { useCommunityChat } from '../../hooks/useCommunityChat';
 import { useMemo } from 'react';
-import ChatHeader from './ChatHeader';
-import ChatMessageList from './ChatMessageList';
-import ChatInput from './ChatInput';
+import ChatHeader from './chatHeader';
+import ChatMessageList from './chatMessageList';
+import ChatInput from './chatInput';
 
-import './ChatWindow.css';
+import './chatWindow.css';
 
 function ChatWindow({ communityPublicId }) {
   const { token } = useAuth();

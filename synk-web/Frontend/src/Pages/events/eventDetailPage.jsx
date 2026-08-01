@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import api from '../../api/axios';
 import './eventDetailPage.css';
-import Spinner from '../../components/Spinner/Spinner';
+import Spinner from '../../components/Spinner/spinner';
 import { useAuth } from '../../context/authContext';
 
 

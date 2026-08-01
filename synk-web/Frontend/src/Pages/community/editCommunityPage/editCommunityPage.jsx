@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import api from '../../../api/axios';
 import './editCommunityPage.css';
-import Spinner from '../../../components/Spinner/Spinner';
+import Spinner from '../../../components/Spinner/spinner';
 
 function EditCommunityPage() {
   const { publicId } = useParams();
