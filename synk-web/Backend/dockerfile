@@ -1,0 +1,14 @@
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+WORKDIR /backend-app
+COPY pom.xml /backend-app
+RUN mvn dependency:go-offline -B
+COPY src ./src
+RUN mvn package -DskipTests
+
+# Run stage
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /backend-app
+COPY --from=build /backend-app/target/*.jar backend-app.jar
+EXPOSE 3000
+CMD ["java", "-jar", "backend-app.jar"]
+
